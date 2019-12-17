@@ -1,0 +1,33 @@
+# main view の左端にコミット ID を表示する
+# set main-view = id date author:email-user commit-title:graph=yes,refs=yes
+
+# blame view の行数表示をON、interval を 1 に
+set blame-view = date:default author:email-user id:yes,color line-number:yes,interval=1 text
+
+# Pager系の行数表示をON、interval を 1 に (default: line-number:no,interval=5)
+set pager-view = line-number:yes,interval=1 text
+set stage-view = line-number:yes,interval=1 text
+set log-view = line-number:yes,interval=1 text
+set blob-view = line-number:yes,interval=1 text
+set diff-view = line-number:yes,interval=1 text:yes,commit-title-overflow=no
+
+bind generic G none
+bind generic g move-first-line
+bind generic G move-last-line
+
+# ` で commit ID をクリップボードにコピー (Mac用)
+bind generic ` @bash -c "echo -n '%(commit)' | pbcopy"
+
+# ` でファイルパスをクリップボードにコピー (Mac用)
+bind stage ` @bash -c "echo -n '%(file)' | pbcopy"
+bind status ` @bash -c "echo -n '%(file)' | pbcopy"
+bind tree ` @bash -c "echo -n '%(file)' | pbcopy"
+bind blob ` @bash -c "echo -n '%(file)' | pbcopy"`
+
+# g をファイル先頭に移動に変更、view-grep を再割当て
+bind generic g move-first-line
+bind generic E view-grep
+
+# G でファイル末尾に移動 (default: :toggle commit-title-graph)
+bind generic G move-last-line
+bind main G move-last-line

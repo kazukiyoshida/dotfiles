@@ -1,0 +1,68 @@
+# ファイル検索・移動・ツリー表示
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_source = '''
+  nnoremap [nerdtree]    <Nop>
+  nmap     <Space>n [nerdtree]
+  nnoremap <silent>[nerdtree]n :NERDTreeToggle<CR>
+  nnoremap <silent>[nerdtree]f :NERDTreeFind<CR>
+'''
+
+# HTML記述補完
+[[plugins]]
+repo = 'mattn/emmet-vim'
+on_i = 1
+
+# 括弧などの補完
+[[plugins]]
+repo = 'cohama/lexima.vim'
+on_i = 1
+
+# Python文法チェック
+[[plugins]]
+repo = 'nvie/vim-flake8'
+on_ft = 'python'
+
+# Rubyのend補完
+[[plugins]]
+repo = 'tpope/vim-endwise'
+on_ft = 'ruby'
+
+# typescriptのカラーバインド
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_ft = 'typescript'
+
+# Solidity シンタックスハイライト
+[[plugins]]
+repo = 'tomlion/vim-solidity'
+on_ft = 'solidity'
+
+# Terraform
+[[plugins]]
+repo = 'hashivim/vim-terraform'
+on_ft = 'terraform'
+
+# Go development plugin for Vim
+[[plugins]]
+repo = 'fatih/vim-go'
+on_ft = 'go'
+
+# JSON の key, values を簡潔に表示する
+[[plugins]]
+repo = 'elzr/vim-json'
+on_ft = 'json'
+
+# 括弧オブジェクトの編集
+# c.f. https://github.com/tpope/vim-surround
+[[plugins]]
+repo = 'tpope/vim-surround'
+on_i = 1
+
+[[plugins]]
+repo = 'posva/vim-vue'
+on_ft = 'vue'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'

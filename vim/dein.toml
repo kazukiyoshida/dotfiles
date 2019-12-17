@@ -1,0 +1,54 @@
+# 基本設定
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+# Language Server Protocol Client
+[[plugins]]
+repo = 'autozimu/LanguageClient-neovim'
+rev = 'next'
+build = 'bash install.sh'
+
+# 非同期通信をコントロールするAPIを提供する（vim-lspがこれに依存している）
+[[plugins]]
+repo = 'prabirshrestha/async.vim'
+
+# vim のステータスラインをカスタマイズ
+[[plugins]]
+repo    = 'vim-airline/vim-airline'
+depends = ['vim-airline-themes']
+
+# vim-airline とセットのプラグイン
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+
+# Material Color. Google が提唱したカラースキームを元に作成されている.
+[[plugins]]
+repo = 'kaicataldo/material.vim'
+
+# 移動の高速化
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+
+# Help の日本語化
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+
+# コメント編集を効率化
+[[plugins]]
+repo = 'scrooloose/nerdcommenter'
+
+# f 検索・移動をより効率化
+[[plugins]]
+repo = 'rhysd/clever-f.vim'
+
+# 編集中のコードを実行
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+
+[[plugins]]
+repo = 'rhysd/git-messenger.vim'
+
+# サブモードを作れるようにする
+# 連続した入力（画面サイズの調節など）をするサブモードなどが作れる
+[[plugins]]
+repo = 'kana/vim-submode'
