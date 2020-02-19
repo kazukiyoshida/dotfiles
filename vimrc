@@ -43,7 +43,7 @@ set shiftwidth=2           " smartindentで増減する幅
 let &colorcolumn=join(range(81,999),",")
 hi ColorColumn ctermbg=235 guibg=#2c2d27
 
-" tmux のペイン間Vimで yank&paste を可能にする
+" tmux のペイン間Vimで yank & paste を可能にする
 set clipboard+=unnamed
 
 " 全角スペースをハイライト表示
@@ -68,7 +68,10 @@ filetype plugin indent on
 "----------------------------------------------------------------------
 " Key Mappings
 "----------------------------------------------------------------------
-inoremap jj <esc>
+inoremap jk <esc>
+
+" Fix paste bug triggered by the above inoremaps
+set t_BE=
 
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
@@ -103,7 +106,7 @@ endif
 if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
 
-  let g:rc_dir    = expand('~/.vim/vim')
+  let g:rc_dir    = expand('~/.config/nvim')
   let s:toml      = g:rc_dir . '/dein.toml'
   let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
 
@@ -121,3 +124,7 @@ if dein#check_install()
 endif
 
 syntax on
+
+
+let mapleader = ","
+nmap s <Plug>(easymotion-s)

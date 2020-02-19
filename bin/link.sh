@@ -2,7 +2,8 @@ ln -si $(pwd)/zshenv ~/.zshenv
 ln -si $(pwd)/zshrc ~/.zshrc
 ln -si $(pwd)/zprofile ~/.zprofile
 ln -si $(pwd)/vimrc ~/.config/nvim/init.vim
-ln -si $(pwd)/vim ~/.vim
+ln -si $(pwd)/vim/dein.toml ~/.config/nvim/dein.toml
+ln -si $(pwd)/vim/dein_lazy.toml ~/.config/nvim/dein_lazy.toml
 ln -si $(pwd)/tmux.conf ~/.tmux.conf
 ln -si $(pwd)/slate ~/.slate
 ln -si $(pwd)/tigrc ~/.tigrc
