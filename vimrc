@@ -128,3 +128,5 @@ syntax on
 
 let mapleader = ","
 nmap s <Plug>(easymotion-s)
+
+let g:rustfmt_autosave = 1
