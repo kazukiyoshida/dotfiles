@@ -122,7 +122,9 @@ alias v='nvim'
 alias ti='tig'
 alias rr="rust_run"
 alias j="just"
+alias m="make"
 alias rust="evcxr"
+alias k="kubectl"
 
 # 'r' コマンドを使用しない
 disable r
