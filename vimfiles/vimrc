@@ -1,0 +1,43 @@
+"----------------------------------------------------------------------
+" Basic Options
+"----------------------------------------------------------------------
+set autoread               " 外部で変更されたファイルがあれば自動で読み込みする
+set backspace=2            " Makes backspace not behave all retarded-like
+set hidden                 " ファイルが未保存状態でも別ファイルを開ける
+set laststatus=2           " 常にステータスバーを表示
+set list                   " タブ、空白、改行の可視化
+set listchars=tab:>>,trail:_,extends:>,precedes:< " eol:↲  tab:>.,
+set number                 " 行番号を表示
+set ruler                  " ステータスバーに行番号を表示
+set t_Co=256               " 256色を使用
+set showmatch              " ステータスラインを常に表示
+set showmode               " 現在のモードを表示
+set title                  " ターミナルのタイトルをセットする
+set smartindent            " 改行時に自動的にインデントを増減する
+set virtualedit=onemore    " 行末の1文字先までカーソルを移動できるようにする
+set nowrap                 " 長い行を折り返ししない
+set shell=$SHELL           " shell を設定
+set nobackup               " バックアップファイル.swpを作成しない
+set noswapfile             " 編集中にスワップファイルを作らない
+set hlsearch               " 検索結果をハイライト
+set ignorecase             " 検索に大文字小文字を区別しない
+set smartcase              " 検索に大文字を含んでいたら大文字小文字を区別する
+set incsearch              " インクリメンタルサーチ. 1文字入力毎に検索を実行
+set expandtab              " タブ入力を複数の空白入力に置き換える
+set tabstop=2              " 画面上でタブ文字が占める幅
+set softtabstop=2          " 連続した空白でTabやBackspaceが適切に動く
+set shiftwidth=2           " smartindentで増減する幅
+set clipboard=unnamed      " 無名レジスタが更新されると Clipboard にも反映する
+
+" TODO ファイル形式の設定なので記述場所を変更する
+" ファイル形式別インデントのロードを有効化する
+filetype plugin indent on
+
+let mapleader = ","
+nmap s <Plug>(easymotion-s)
+
+let g:rustfmt_autosave = 1
+
+" 各種設定の読み込み
+" cf. https://mattn.kaoriya.net/software/vim/20191231001537.htm
+call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})
