@@ -15,6 +15,7 @@ endif
 if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
 
+  let g:dein#auto_recache = 1
   let g:rc_dir    = expand('~/.config/nvim')
   let s:toml      = g:rc_dir . '/dein.toml'
   let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'

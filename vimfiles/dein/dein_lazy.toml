@@ -1,13 +1,3 @@
-# ファイル検索・移動・ツリー表示
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-hook_source = '''
-  nnoremap [nerdtree]    <Nop>
-  nmap     <Space>n [nerdtree]
-  nnoremap <silent>[nerdtree]n :NERDTreeToggle<CR>
-  nnoremap <silent>[nerdtree]f :NERDTreeFind<CR>
-'''
-
 # HTML記述補完
 [[plugins]]
 repo = 'mattn/emmet-vim'
