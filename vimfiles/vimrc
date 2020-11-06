@@ -33,9 +33,6 @@ set clipboard=unnamed      " 無名レジスタが更新されると Clipboard �
 " ファイル形式別インデントのロードを有効化する
 filetype plugin indent on
 
-let mapleader = ","
-nmap s <Plug>(easymotion-s)
-
 let g:rustfmt_autosave = 1
 
 " 各種設定の読み込み
