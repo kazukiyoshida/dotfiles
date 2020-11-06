@@ -1,9 +1,9 @@
 #!/bin/zsh
 
-# Return if current zsh is called from vim
-if [[ -n $VIMRUNTIME ]]; then
-    return 0
-fi
+# # Return if current zsh is called from vim
+# if [[ -n $VIMRUNTIME ]]; then
+#     return 0
+# fi
 
 #---------------------------------------------------------------------------------
 # Shell Options
