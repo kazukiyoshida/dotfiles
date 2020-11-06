@@ -28,6 +28,9 @@ set tabstop=2              " 画面上でタブ文字が占める幅
 set softtabstop=2          " 連続した空白でTabやBackspaceが適切に動く
 set shiftwidth=2           " smartindentで増減する幅
 set clipboard=unnamed      " 無名レジスタが更新されると Clipboard にも反映する
+set sh=zsh                 " Shell を Zsh に
+set cmdheight=2            " コマンドラインの高さを2行分に
+set rtp+=/usr/local/opt/fzf " Runtime Path 設定
 
 " TODO ファイル形式の設定なので記述場所を変更する
 " ファイル形式別インデントのロードを有効化する
