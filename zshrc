@@ -119,7 +119,8 @@ alias ls='ls -GF'
 alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
-alias ti='tig'
+alias t='tig'
+alias tm='tmux'
 alias rr="rust_run"
 alias j="just"
 alias m="make"
@@ -128,6 +129,12 @@ alias k="kubectl"
 
 # 'r' コマンドを使用しない
 disable r
+
+if [[ -n $VIMRUNTIME ]]; then
+  alias vim='nvr'
+  alias vi='nvr'
+  alias v='nvr'
+fi
 
 #---------------------------------------------------------------------------------
 # Functions
@@ -196,6 +203,20 @@ bindkey -M viins '^D'  delete-char-or-list
 bindkey -M viins '^H'  backward-delete-char
 bindkey -M viins '^K'  kill-line
 
+# function _vim_executor() {
+#   vim
+#   zle reset-prompt
+# }
+# zle -N vim_executor _vim_executor
+# bindkey '^i' vim_executor # <C-i> で vim keymapping と重複しないように注意
+#
+# function _tig_executor() {
+#   tig
+#   zle reset-prompt
+# }
+# zle -N tig_executor _tig_executor
+# bindkey '^t' tig_executor # <C-t> で vim keymapping と重複しないように注意
+
 #---------------------------------------------------------------------------------
 # Plugins
 #---------------------------------------------------------------------------------
@@ -257,3 +278,12 @@ fi
 if [ -f '/Users/kazukiyoshida/google-cloud-sdk/completion.zsh.inc' ]; then
   . '/Users/kazukiyoshida/google-cloud-sdk/completion.zsh.inc'
 fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/kazukiyoshida/.sdkman"
+[[ -s "/Users/kazukiyoshida/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/kazukiyoshida/.sdkman/bin/sdkman-init.sh"
+
+
+# tmp
+export LD_LIBRARY_PATH=$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib
+export RLS_ROOT=/Users/kazukiyoshida/code/src/github.com/rust-lang-nursery/rls/target/release/rls

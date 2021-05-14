@@ -32,12 +32,65 @@ set sh=zsh                 " Shell を Zsh に
 set cmdheight=2            " コマンドラインの高さを2行分に
 set rtp+=/usr/local/opt/fzf " Runtime Path 設定
 
+" neovim-remote
+let nvrcmd      = "nvr --remote-wait"
+let $VISUAL     = nvrcmd
+let $GIT_EDITOR = nvrcmd
+
+" `$ vim` で起動した時に terminal mode から開始する
+autocmd VimEnter * if @% == '' && s:GetBufByte() == 0 | call Term()
+
+function! s:GetBufByte()
+  let byte = line2byte(line('$') + 1)
+  if byte == -1
+    return 0
+  else
+    return byte - 1
+  endif
+endfunction
+
+function! Term()
+  setlocal nonumber
+  call termopen(&shell, {'on_exit': 'OnExit'})
+endfunction
+
+
 " TODO ファイル形式の設定なので記述場所を変更する
 " ファイル形式別インデントのロードを有効化する
 filetype plugin indent on
 
+" TODO 設定を別の場所に移動
 let g:rustfmt_autosave = 1
 
 " 各種設定の読み込み
 " cf. https://mattn.kaoriya.net/software/vim/20191231001537.htm
 call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})
+
+
+
+
+
+
+" " Coc nvim 設定
+" https://github.com/neoclide/coc.nvim#example-vim-configuration
+"
+" " Use tab for trigger completion with characters ahead and navigate.
+" " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" " other plugin before putting this into your config.
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+"
+"
+" " GoTo code navigation.
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)

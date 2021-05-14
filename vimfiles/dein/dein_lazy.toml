@@ -65,3 +65,31 @@ on_ft = 'toml'
 [[plugins]]
 repo = 'rust-lang/rust.vim'
 on_ft = 'rust'
+
+[[plugins]]
+repo = 'SirVer/ultisnips'
+
+[[plugins]]
+repo = 'honza/vim-snippets'
+
+# コードスニっペットの画像生成ツールSilicon の vim バインディング
+# silicon に fallback font を指定しないとマルチバイト文字が変換できない
+[[plugins]]
+repo = 'segeljakt/vim-silicon'
+hook_add = '''
+let g:silicon = {
+      \   'theme':              'Dracula',
+      \   'font':      'Hiragino Sans GB',
+      \   'background':         '#AAAAFF',
+      \   'shadow-color':       '#555555',
+      \   'line-pad':                   2,
+      \   'pad-horiz':                 80,
+      \   'pad-vert':                 100,
+      \   'shadow-blur-radius':         0,
+      \   'shadow-offset-x':            0,
+      \   'shadow-offset-y':            0,
+      \   'line-number':           v:true,
+      \   'round-corner':          v:true,
+      \   'window-controls':       v:true,
+      \ }
+'''

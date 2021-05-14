@@ -2,7 +2,7 @@
 " Autocommands
 "----------------------------------------------------------------------
 " Clear whitespace at the end of lines automatically
-autocmd BufWritePre * :%s/\s\+$//ge
+" autocmd BufWritePre * :%s/\s\+$//ge
 
 " Don't fold anything
 autocmd BufWinEnter * set foldlevel=999999

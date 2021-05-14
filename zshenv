@@ -1,4 +1,3 @@
-
 export EDITOR=vim
 export XDG_CONFIG_HOME=$HOME/.config
 
@@ -40,3 +39,5 @@ fi
 # fzf
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border --prompt="P " --header="H" --margin=1,3 --inline-info'
 
+
+export ZDOTDIR=$HOME

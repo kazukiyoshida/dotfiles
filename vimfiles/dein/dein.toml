@@ -58,3 +58,12 @@ repo = 'prabirshrestha/vim-lsp'
 # Vim LSP
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
+
+# Filer
+[[plugins]]
+repo = "Shougo/defx.nvim"
+
+# [[plugins]]
+# repo = 'neoclide/coc.nvim'
+# build = './install.sh nightly'
+# hook_add = 'source path/to/your/coc-setting.vim'
