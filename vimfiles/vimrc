@@ -1,6 +1,7 @@
 "----------------------------------------------------------------------
 " Basic Options
 "----------------------------------------------------------------------
+set t_BE=                  " ctrl-v によるペーストによって時々発生する [201~ バグを防ぐ. https://vim-jp.org/vimdoc-ja/term.html
 set autoread               " 外部で変更されたファイルがあれば自動で読み込みする
 set backspace=2            " Makes backspace not behave all retarded-like
 set hidden                 " ファイルが未保存状態でも別ファイルを開ける
@@ -37,6 +38,7 @@ let nvrcmd      = "nvr --remote-wait"
 let $VISUAL     = nvrcmd
 let $GIT_EDITOR = nvrcmd
 
+
 " `$ vim` で起動した時に terminal mode から開始する
 autocmd VimEnter * if @% == '' && s:GetBufByte() == 0 | call Term()
 
@@ -62,35 +64,8 @@ filetype plugin indent on
 " TODO 設定を別の場所に移動
 let g:rustfmt_autosave = 1
 
+let g:fern#renderer = "nerdfont"
+
 " 各種設定の読み込み
 " cf. https://mattn.kaoriya.net/software/vim/20191231001537.htm
 call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})
-
-
-
-
-
-
-" " Coc nvim 設定
-" https://github.com/neoclide/coc.nvim#example-vim-configuration
-"
-" " Use tab for trigger completion with characters ahead and navigate.
-" " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" " other plugin before putting this into your config.
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-"
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
-"
-"
-" " GoTo code navigation.
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)

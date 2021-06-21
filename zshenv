@@ -1,12 +1,14 @@
 export EDITOR=vim
 export XDG_CONFIG_HOME=$HOME/.config
 
+export PATH=$PATH:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
 # ls等での日本語文字化け対策
 export LANG=C
 export LC_CTYPE=ja_JP.UTF-8
 
 # python
-export PYENV_ROOT="${HOME}/.pyenv"
+# export PYENV_ROOT="${HOME}/.pyenv"
 export LD_LIBRARY_PATH=/usr/local/lib
 export PYTHONDONTWRITEBYTECODE=1 # pycache作成しない
 

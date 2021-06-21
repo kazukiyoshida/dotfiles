@@ -21,10 +21,10 @@ nnoremap <C-s><C-s> :sp<CR>
 nnoremap <C-v><C-v> :vsp<CR>
 nnoremap <C-p> viwc<C-r>0<ESC>
 
-" nnoremap <C-h> <C-w>h
-" nnoremap <C-j> <C-w>j
-" nnoremap <C-k> <C-w>k
-" nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 " nnoremap <C-]> :bn<CR>
 
@@ -50,14 +50,10 @@ nnoremap ml :Rg<CR>
 nnoremap mf :Buffers<CR>
 nnoremap ms :Snippets<CR>
 
-" *** Filer
-
-
 " *** Others
 " vim window resize
 " comment out
 " snipet
-
 
 " Neovim の :terminal でも水平・上下分割で開けるようにする
 " cf. https://github.com/neovim/neovim/issues/5073
@@ -66,5 +62,9 @@ if has('nvim')
   command! -nargs=* Termv vsplit | terminal <args>
 endif
 
-" Fix paste bug triggered by the above inoremaps
-set t_BE=
+
+nnoremap <C-n> :Fern . -reveal=% -drawer -toggle -width=30<CR>
+
+" sample
+nnoremap <silent> <leader>t :call sample#helloWorld()<cr>
+nnoremap <silent> <leader>s :call utils#sourceVimrc()<cr>

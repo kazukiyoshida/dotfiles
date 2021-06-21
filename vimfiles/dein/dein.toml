@@ -39,13 +39,19 @@ repo = 'kana/vim-submode'
 # インクリメンタルサーチツール
 [[plugins]]
 repo = 'junegunn/fzf'
-build_on = '''
-./install -all
-'''
+build = './install --bin'
+merged = '0'
 
 # インクリメンタルサーチツール
 [[plugins]]
 repo = 'junegunn/fzf.vim'
+depends = 'fzf'
+hook_add = '''
+  command! -bang -nargs=* Rg
+    \ call fzf#vim#grep(
+    \   'rg --line-number --no-heading '.shellescape(<q-args>), 0,
+    \   fzf#vim#with_preview({'options': '--exact --reverse'}, 'right:50%:wrap'))
+'''
 
 # Vim ウィンドウのリサイズツール
 [[plugins]]
@@ -59,11 +65,33 @@ repo = 'prabirshrestha/vim-lsp'
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
 
-# Filer
+# NerdFont
 [[plugins]]
-repo = "Shougo/defx.nvim"
+repo = "lambdalisue/nerdfont.vim"
 
-# [[plugins]]
-# repo = 'neoclide/coc.nvim'
-# build = './install.sh nightly'
-# hook_add = 'source path/to/your/coc-setting.vim'
+# Fern: File tree viewer
+[[plugins]]
+repo = "lambdalisue/fern.vim"
+hook_add = '''
+let g:fern#mapping#collapse_or_leave#disable_default_mappings = 1
+'''
+
+# Fern に git status を表示する
+[[plugins]]
+repo = "lambdalisue/fern-git-status.vim"
+
+# Fern にアイコンを追加する
+[[plugins]]
+repo = "lambdalisue/fern-renderer-nerdfont.vim"
+
+# Fix CursorHold Performance
+# https://github.com/antoinemadec/FixCursorHold.nvim
+[[plugins]]
+repo = "antoinemadec/FixCursorHold.nvim"
+hook_add = '''
+let g:cursorhold_updatetime = 100
+'''
+
+# ファイルの差分を左端に表示
+[[plugins]]
+repo = "airblade/vim-gitgutter"
