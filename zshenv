@@ -18,9 +18,11 @@ export NODEBREW_ROOT=/usr/local/var/nodebrew
 export PATH="$HOME/.nodenv/shims:$PATH"
 
 # Go
-export GOPATH=$HOME/code
-export PATH=$PATH:$GOPATH/bin
-export GO111MODULE=on
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
 
 # Kotlin
 export PATH="/usr/local/bin/kotlinc/bin:$PATH"

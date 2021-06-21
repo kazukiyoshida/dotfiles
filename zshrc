@@ -294,6 +294,15 @@ export RLS_ROOT=/Users/kazukiyoshida/code/src/github.com/rust-lang-nursery/rls/t
 eval "$(pyenv init -)"
 
 
+# Zsh autoload
+# 独自 autoload を格納する場所
+export FPATH="$HOME/.zsh/autoload/:$FPATH"
+
+# Zsh 補完
+autoload -U compinit
+compinit
+
+
 if [ -f ~/.zsh.local ]; then
   source ~/.zsh.local
 fi
