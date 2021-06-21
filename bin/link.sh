@@ -1,5 +1,20 @@
+#!/bin/sh
+
+set -eu
+
+if [ -e ~/.zshenv ]; then
+  unlink ~/.zshenv
+fi
 ln -si $(pwd)/zshenv ~/.zshenv
+
+if [ -e ~/.zshrc ]; then
+  unlink ~/.zshrc
+fi
 ln -si $(pwd)/zshrc ~/.zshrc
+
+if [ -e ~/.profile ]; then
+  unlink ~/.profile
+fi
 ln -si $(pwd)/zprofile ~/.zprofile
 
 

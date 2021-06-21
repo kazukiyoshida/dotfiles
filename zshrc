@@ -1,10 +1,5 @@
 #!/bin/zsh
 
-# # Return if current zsh is called from vim
-# if [[ -n $VIMRUNTIME ]]; then
-#     return 0
-# fi
-
 #---------------------------------------------------------------------------------
 # Shell Options
 #---------------------------------------------------------------------------------
@@ -21,7 +16,7 @@ set -o notify
 # No mail notification
 unset MAILCHECK
 
-# Set default keybind
+# Reset default keybind
 bindkey -d
 
 # auto cd
@@ -80,19 +75,19 @@ zstyle ':vcs_info:*'     actionformats     '[%bl%a]'            # rebase or some
 
 function prompt_git() {
   # ${fg[cyan]}%....$reset_color : set prompt color
-  PROMPT='${vcs_info_msg_0_}`command_status_emoji $?` '
+  PROMPT='${vcs_info_msg_0_} $ '
   RPROMPT='%{${fg[cyan]}%}[%~]%{${reset_color}%}'
 }
 
-function command_status_emoji() {
-  local symbol=🙅
-  if [ $1 = 0 ];then
-    symbol=🙆
-  elif [ $1 = 130 ];then
-    symbol=😍
-  fi
-  echo ${symbol}
-}
+# function command_status_emoji() {
+#   local symbol=🙅
+#   if [ $1 = 0 ];then
+#     symbol=🙆
+#   elif [ $1 = 130 ];then
+#     symbol=😍
+#   fi
+#   echo ${symbol}
+# }
 
 precmd(){vcs_info}
 prompt_git
@@ -119,15 +114,29 @@ alias ls='ls -GF'
 alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
-alias ti='tig'
+alias t='tig'
+alias tm='tmux'
 alias rr="rust_run"
 alias j="just"
 alias m="make"
 alias rust="evcxr"
 alias k="kubectl"
+alias ll='ls -laF'
+
+# config files
+alias zshrc="vim ~/.zshrc"
+alias vimrc="vim ~/.config/nvim/init.vim"
+alias dein="vim ~/.config/nvim/dein.toml"
+alias dein_lazy="vim ~/.config/nvim/dein_lazy.toml"
 
 # 'r' コマンドを使用しない
 disable r
+
+if [[ -n $VIMRUNTIME ]]; then
+  alias vim='nvr'
+  alias vi='nvr'
+  alias v='nvr'
+fi
 
 #---------------------------------------------------------------------------------
 # Functions
@@ -188,13 +197,27 @@ function rust_run() {
 # Key mapping
 #---------------------------------------------------------------------------------
 
-bindkey -v
+# bindkey -v
 bindkey -M viins '^A'  beginning-of-line
-bindkey -M viins '^E'  end-of-line
-bindkey -M viins '^B'  backward-char
-bindkey -M viins '^D'  delete-char-or-list
-bindkey -M viins '^H'  backward-delete-char
+# bindkey -M viins '^E'  end-of-line
+# bindkey -M viins '^B'  backward-char
+# bindkey -M viins '^D'  delete-char-or-list
+# bindkey -M viins '^H'  backward-delete-char
 bindkey -M viins '^K'  kill-line
+
+# function _vim_executor() {
+#   vim
+#   zle reset-prompt
+# }
+# zle -N vim_executor _vim_executor
+# bindkey '^i' vim_executor # <C-i> で vim keymapping と重複しないように注意
+#
+# function _tig_executor() {
+#   tig
+#   zle reset-prompt
+# }
+# zle -N tig_executor _tig_executor
+# bindkey '^t' tig_executor # <C-t> で vim keymapping と重複しないように注意
 
 #---------------------------------------------------------------------------------
 # Plugins
@@ -256,4 +279,21 @@ fi
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kazukiyoshida/google-cloud-sdk/completion.zsh.inc' ]; then
   . '/Users/kazukiyoshida/google-cloud-sdk/completion.zsh.inc'
+fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/kazukiyoshida/.sdkman"
+[[ -s "/Users/kazukiyoshida/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/kazukiyoshida/.sdkman/bin/sdkman-init.sh"
+
+
+# tmp
+export LD_LIBRARY_PATH=$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib
+export RLS_ROOT=/Users/kazukiyoshida/code/src/github.com/rust-lang-nursery/rls/target/release/rls
+
+# pyenv
+eval "$(pyenv init -)"
+
+
+if [ -f ~/.zsh.local ]; then
+  source ~/.zsh.local
 fi
