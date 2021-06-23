@@ -57,6 +57,17 @@ hook_add = '''
 [[plugins]]
 repo = 'simeji/winresizer'
 
+# Auto complete
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+
+# Execute in asynchronous
+[[plugins]]
+repo = 'prabirshrestha/async.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'
+
 # Vim LSP
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
