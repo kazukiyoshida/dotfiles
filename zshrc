@@ -1,10 +1,12 @@
 #!/bin/zsh
 
+echo '---- zshrc ----'
+
 #---------------------------------------------------------------------------------
 # Shell Options
 #---------------------------------------------------------------------------------
 
-# Default file permissions
+# Update default file permissions
 umask 022
 
 # No coredump file
@@ -21,6 +23,10 @@ bindkey -d
 
 # auto cd
 setopt AUTO_CD
+
+# ls等での日本語文字化け対策
+export LANG=C
+export LC_CTYPE=ja_JP.UTF-8
 
 #---------------------------------------------------------------------------------
 # Environment Configuration
@@ -78,16 +84,6 @@ function prompt_git() {
   PROMPT='${vcs_info_msg_0_} $ '
   RPROMPT='%{${fg[cyan]}%}[%~]%{${reset_color}%}'
 }
-
-# function command_status_emoji() {
-#   local symbol=🙅
-#   if [ $1 = 0 ];then
-#     symbol=🙆
-#   elif [ $1 = 130 ];then
-#     symbol=😍
-#   fi
-#   echo ${symbol}
-# }
 
 precmd(){vcs_info}
 prompt_git
@@ -205,20 +201,6 @@ bindkey -M viins '^A'  beginning-of-line
 # bindkey -M viins '^H'  backward-delete-char
 bindkey -M viins '^K'  kill-line
 
-# function _vim_executor() {
-#   vim
-#   zle reset-prompt
-# }
-# zle -N vim_executor _vim_executor
-# bindkey '^i' vim_executor # <C-i> で vim keymapping と重複しないように注意
-#
-# function _tig_executor() {
-#   tig
-#   zle reset-prompt
-# }
-# zle -N tig_executor _tig_executor
-# bindkey '^t' tig_executor # <C-t> で vim keymapping と重複しないように注意
-
 #---------------------------------------------------------------------------------
 # Plugins
 #---------------------------------------------------------------------------------
@@ -257,7 +239,6 @@ function peco_select_history() {
 zle -N peco_select_history
 bindkey '^r' peco_select_history
 
-
 #-------------------------------------------------------------------------------
 # User Shell Environment
 #-------------------------------------------------------------------------------
@@ -267,33 +248,6 @@ if [[ -f ~/.zshrc.local ]]; then
   source ~/.zshrc.local
 fi
 
-#-------------------------------------------------------------------------------
-# GCloud Settings
-#-------------------------------------------------------------------------------
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/kazukiyoshida/google-cloud-sdk/path.zsh.inc' ]; then
-  . '/Users/kazukiyoshida/google-cloud-sdk/path.zsh.inc'
-fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/kazukiyoshida/google-cloud-sdk/completion.zsh.inc' ]; then
-  . '/Users/kazukiyoshida/google-cloud-sdk/completion.zsh.inc'
-fi
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/kazukiyoshida/.sdkman"
-[[ -s "/Users/kazukiyoshida/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/kazukiyoshida/.sdkman/bin/sdkman-init.sh"
-
-
-# tmp
-export LD_LIBRARY_PATH=$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib
-export RLS_ROOT=/Users/kazukiyoshida/code/src/github.com/rust-lang-nursery/rls/target/release/rls
-
-# pyenv
-eval "$(pyenv init -)"
-
-
 # Zsh autoload
 # 独自 autoload を格納する場所
 export FPATH="$HOME/.zsh/autoload/:$FPATH"
@@ -302,7 +256,56 @@ export FPATH="$HOME/.zsh/autoload/:$FPATH"
 autoload -U compinit
 compinit
 
+# git, peco などの設定ファイル
+export XDG_CONFIG_HOME=$HOME/.config
 
+# Rust
+export LD_LIBRARY_PATH=$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib
+export RLS_ROOT=/Users/kazukiyoshida/code/src/github.com/rust-lang-nursery/rls/target/release/rls
+
+# PATH 更新系の設定
+if [[ -z $ZSHRC_PATH_UPDATED ]]; then
+  # Go
+  export GOENV_ROOT="$HOME/.goenv"
+  export PATH="$GOENV_ROOT/bin:$PATH"
+  eval "$(goenv init -)"
+  # export PATH="$GOROOT/bin:$PATH"
+  export PATH="$GOPATH/bin:$PATH"
+
+  # python
+  # export LD_LIBRARY_PATH=/usr/local/lib
+  export PYTHONDONTWRITEBYTECODE=1 # pycache作成しない
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init --path)"
+
+  # Node
+  export NODEBREW_HOME=/usr/local/var/nodebrew/current
+  export NODEBREW_ROOT=/usr/local/var/nodebrew
+  export PATH="$HOME/.nodenv/shims:$PATH"
+
+  export ZSHRC_PATH_UPDATED=1
+fi
+
+# ls command colors
+LS_COLORS='di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;46'
+export LSCOLORS=gxfxcxdxbxegedabagacag
+export LS_COLORS
+
+if [ -f ~/.dircolors ]; then
+    if type dircolors > /dev/null 2>&1; then
+        eval $(dircolors ~/.dircolors)
+    elif type gdircolors > /dev/null 2>&1; then
+        eval $(gdircolors ~/.dircolors)
+    fi
+fi
+
+# fzf
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border --prompt="P " --header="H" --margin=1,3 --inline-info'
+
+export ZDOTDIR=$HOME
+
+# 端末固有の設定ファイル
 if [ -f ~/.zsh.local ]; then
   source ~/.zsh.local
 fi
