@@ -38,11 +38,6 @@ on_ft = 'solidity'
 repo = 'hashivim/vim-terraform'
 on_ft = 'terraform'
 
-# Go development plugin for Vim
-[[plugins]]
-repo = 'fatih/vim-go'
-on_ft = 'go'
-
 # JSON の key, values を簡潔に表示する
 [[plugins]]
 repo = 'elzr/vim-json'

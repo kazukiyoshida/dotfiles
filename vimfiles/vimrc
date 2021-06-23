@@ -38,9 +38,8 @@ let nvrcmd      = "nvr --remote-wait"
 let $VISUAL     = nvrcmd
 let $GIT_EDITOR = nvrcmd
 
-
 " `$ vim` で起動した時に terminal mode から開始する
-autocmd VimEnter * if @% == '' && s:GetBufByte() == 0 | call Term()
+autocmd VimEnter * if @% == '' && s:GetBufByte() == 0 | execute 'terminal'
 
 function! s:GetBufByte()
   let byte = line2byte(line('$') + 1)
