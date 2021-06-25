@@ -138,12 +138,6 @@ fi
 # Functions
 #---------------------------------------------------------------------------------
 
-# command_not_found_handler はコマンドが正常終了しなかった場合に絵文字を返却する
-function command_not_found_handler() {
-  echo "🙈 Oops!"
-  return 1
-}
-
 # dke は端末設定を行いながら docker コンテナへログインする
 function dke() {
   docker exec -it -e COLUMNS=$COLUMNS -e LINES=$LINES -e TERM=$TERM $@ bash
