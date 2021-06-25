@@ -123,7 +123,7 @@ alias ll='ls -laF'
 alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.config/nvim/init.vim"
 alias dein="vim ~/.config/nvim/dein.toml"
-alias dein_lazy="vim ~/.config/nvim/dein_lazy.toml"
+alias deinl="vim ~/.config/nvim/dein_lazy.toml"
 
 # 'r' コマンドを使用しない
 disable r

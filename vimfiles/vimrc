@@ -38,9 +38,6 @@ let nvrcmd      = "nvr --remote-wait"
 let $VISUAL     = nvrcmd
 let $GIT_EDITOR = nvrcmd
 
-" `$ vim` で起動した時に terminal mode から開始する
-autocmd VimEnter * if @% == '' && s:GetBufByte() == 0 | execute 'terminal'
-
 function! s:GetBufByte()
   let byte = line2byte(line('$') + 1)
   if byte == -1
@@ -55,6 +52,16 @@ function! Term()
   call termopen(&shell, {'on_exit': 'OnExit'})
 endfunction
 
+if v:vim_did_enter != 0
+  if @% == '' && s:GetBufByte() == 0
+    " `$ vim` で起動した時に terminal mode から開始する
+    execute 'terminal'
+  else
+    " 任意のファイルを開いたときに LSP を起動する.
+    " auto enabling が機能しなかったため workaround.
+    au VimEnter * call lsp#enable()
+  endif
+endif
 
 " TODO ファイル形式の設定なので記述場所を変更する
 " ファイル形式別インデントのロードを有効化する
