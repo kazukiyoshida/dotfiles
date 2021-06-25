@@ -21,12 +21,15 @@ nnoremap <C-s><C-s> :sp<CR>
 nnoremap <C-v><C-v> :vsp<CR>
 nnoremap <C-p> viwc<C-r>0<ESC>
 
+" Window 移動
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-" nnoremap <C-]> :bn<CR>
+" Buffer 切り替え
+nnoremap <C-]> :bn<CR>
+nnoremap <C-m> :bn<CR>
 
 " *** easy motion -> S Key
 let g:EasyMotion_do_mapping = 0
