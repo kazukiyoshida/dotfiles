@@ -20,8 +20,20 @@ repo = 'kaicataldo/material.vim'
 repo = 'easymotion/vim-easymotion'
 
 # コメント編集を効率化
+# double space bug for python code
+# cf. https://github.com/preservim/nerdcommenter/issues/278
 [[plugins]]
 repo = 'scrooloose/nerdcommenter'
+hook_add = '''
+let g:NERDSpaceDelims = 0
+let g:NERDSpaceDelims = 1
+let g:NERDCustomDelimiters = {
+      \ 'python': { 'left': '#', 'right': '' }
+      \ }
+let g:NERDDefaultAlign = 'left'
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDToggleCheckAllLines = 1
+'''
 
 # # f 検索・移動をより効率化
 # [[plugins]]
@@ -61,16 +73,17 @@ repo = 'simeji/winresizer'
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete.vim'
 
-# Execute in asynchronous
-[[plugins]]
-repo = 'prabirshrestha/async.vim'
-
-[[plugins]]
-repo = 'prabirshrestha/asyncomplete-lsp.vim'
-
 # Vim LSP
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
+hook_add = '''
+g:lsp_signature_help_enabled = 1
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 0
+let g:asyncomplete_popup_delay = 200
+'''
 
 # Vim LSP
 [[plugins]]
