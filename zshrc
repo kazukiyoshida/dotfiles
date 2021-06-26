@@ -50,16 +50,16 @@ esac
 EDITOR="vim"
 export EDITOR
 
-PAGER="less -g -i -M -R -S -W -z-4 -x4"
+PAGER="less -g -i -M -R -S -W -z-4 -x4 -j20"
 MANPAGER="$PAGER"
 export PAGER MANPAGER
 
-#Colors for less pager (man pages)
+# Colors for less pager
 export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
 export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
 export LESS_TERMCAP_me=$'\E[0m'           # end mode
+export LESS_TERMCAP_so=$'\E[1;91m'        # begin standout-mode - info box
 export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
-export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
@@ -102,22 +102,18 @@ alias dip='yes | docker container prune'
 alias gp='git push origin HEAD'
 alias ch='git checkout'
 alias gb='git branch'
+alias gl='git pull'
 
 # Others
-alias hi='history | tail -20'
 alias l='ls -GF'
 alias ls='ls -GF'
+alias ll='ls -laF'
 alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
 alias t='tig'
-alias tm='tmux'
-alias rr="rust_run"
-alias j="just"
-alias m="make"
 alias rust="evcxr"
 alias k="kubectl"
-alias ll='ls -laF'
 
 # config files
 alias zshrc="vim ~/.zshrc"
