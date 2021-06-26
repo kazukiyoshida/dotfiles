@@ -120,6 +120,9 @@ alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.config/nvim/init.vim"
 alias dein="vim ~/.config/nvim/dein.toml"
 alias deinl="vim ~/.config/nvim/dein_lazy.toml"
+alias tmuxconf="vim ~/.tmux.conf"
+
+alias sz="source ~/.zshrc"
 
 # 'r' コマンドを使用しない
 disable r
@@ -187,7 +190,7 @@ function rust_run() {
 bindkey -M viins '^A'  beginning-of-line
 # bindkey -M viins '^E'  end-of-line
 # bindkey -M viins '^B'  backward-char
-# bindkey -M viins '^D'  delete-char-or-list
+bindkey -M viins '^D'  delete-char-or-list
 # bindkey -M viins '^H'  backward-delete-char
 bindkey -M viins '^K'  kill-line
 
@@ -273,6 +276,9 @@ if [[ -z $ZSHRC_PATH_UPDATED ]]; then
   export NODEBREW_HOME=/usr/local/var/nodebrew/current
   export NODEBREW_ROOT=/usr/local/var/nodebrew
   export PATH="$HOME/.nodenv/shims:$PATH"
+
+  export PATH="$PATH:$HOME/.cargo/bin"
+
 
   export ZSHRC_PATH_UPDATED=1
 fi
