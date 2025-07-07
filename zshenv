@@ -1,1 +1,2 @@
-echo "---- zshenv ---"
+# echo "---- zshenv ---"
+# . "$HOME/.cargo/env"

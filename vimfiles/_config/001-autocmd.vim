@@ -8,4 +8,4 @@
 autocmd BufWinEnter * set foldlevel=999999
 
 " Select file type
-autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
+" autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html

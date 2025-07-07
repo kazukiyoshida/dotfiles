@@ -50,10 +50,6 @@ repo = 'tpope/vim-surround'
 on_i = 1
 
 [[plugins]]
-repo = 'posva/vim-vue'
-on_ft = 'vue'
-
-[[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
 

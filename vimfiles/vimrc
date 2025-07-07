@@ -1,77 +1,117 @@
-"----------------------------------------------------------------------
-" Basic Options
-"----------------------------------------------------------------------
-set t_BE=                  " ctrl-v によるペーストによって時々発生する [201~ バグを防ぐ. https://vim-jp.org/vimdoc-ja/term.html
-set autoread               " 外部で変更されたファイルがあれば自動で読み込みする
-set backspace=2            " Makes backspace not behave all retarded-like
-set hidden                 " ファイルが未保存状態でも別ファイルを開ける
-set laststatus=2           " 常にステータスバーを表示
-set list                   " タブ、空白、改行の可視化
-set listchars=tab:>>,trail:_,extends:>,precedes:< " eol:↲  tab:>.,
-set number                 " 行番号を表示
-set ruler                  " ステータスバーに行番号を表示
-set t_Co=256               " 256色を使用
-set showmatch              " ステータスラインを常に表示
-set showmode               " 現在のモードを表示
-set title                  " ターミナルのタイトルをセットする
-set smartindent            " 改行時に自動的にインデントを増減する
-set virtualedit=onemore    " 行末の1文字先までカーソルを移動できるようにする
-set nowrap                 " 長い行を折り返ししない
-set shell=$SHELL           " shell を設定
-set nobackup               " バックアップファイル.swpを作成しない
-set noswapfile             " 編集中にスワップファイルを作らない
-set hlsearch               " 検索結果をハイライト
-set ignorecase             " 検索に大文字小文字を区別しない
-set smartcase              " 検索に大文字を含んでいたら大文字小文字を区別する
-set incsearch              " インクリメンタルサーチ. 1文字入力毎に検索を実行
-set expandtab              " タブ入力を複数の空白入力に置き換える
-set tabstop=2              " 画面上でタブ文字が占める幅
-set softtabstop=2          " 連続した空白でTabやBackspaceが適切に動く
-set shiftwidth=2           " smartindentで増減する幅
-set clipboard=unnamed      " 無名レジスタが更新されると Clipboard にも反映する
-set sh=zsh                 " Shell を Zsh に
-set cmdheight=2            " コマンドラインの高さを2行分に
-set rtp+=/usr/local/opt/fzf " Runtime Path 設定
-
-" neovim-remote
-let nvrcmd      = "nvr --remote-wait"
-let $VISUAL     = nvrcmd
-let $GIT_EDITOR = nvrcmd
-
-function! s:GetBufByte()
-  let byte = line2byte(line('$') + 1)
-  if byte == -1
-    return 0
-  else
-    return byte - 1
-  endif
-endfunction
-
-function! Term()
-  setlocal nonumber
-  call termopen(&shell, {'on_exit': 'OnExit'})
-endfunction
-
-if v:vim_did_enter != 0
-  if @% == '' && s:GetBufByte() == 0
-    " `$ vim` で起動した時に terminal mode から開始する
-    execute 'terminal'
-  else
-    " 任意のファイルを開いたときに LSP を起動する.
-    " auto enabling が機能しなかったため workaround.
-    au VimEnter * call lsp#enable()
-  endif
-endif
-
-" TODO ファイル形式の設定なので記述場所を変更する
-" ファイル形式別インデントのロードを有効化する
-filetype plugin indent on
-
-" TODO 設定を別の場所に移動
-let g:rustfmt_autosave = 1
-
-let g:fern#renderer = "nerdfont"
-
-" 各種設定の読み込み
-" cf. https://mattn.kaoriya.net/software/vim/20191231001537.htm
-call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})
+" "----------------------------------------------------------------------
+" " Basic Options
+" "----------------------------------------------------------------------
+" set t_BE=                  " ctrl-v によるペーストによって時々発生する [201~ バグを防ぐ. https://vim-jp.org/vimdoc-ja/term.html
+" set autoread               " 外部で変更されたファイルがあれば自動で読み込みする
+" set backspace=2            " Makes backspace not behave all retarded-like
+" set hidden                 " ファイルが未保存状態でも別ファイルを開ける
+" set laststatus=2           " 常にステータスバーを表示
+" set list                   " タブ、空白、改行の可視化
+" set listchars=tab:>>,trail:_,extends:>,precedes:< " eol:↲  tab:>.,
+" set number                 " 行番号を表示
+" set ruler                  " ステータスバーに行番号を表示
+" set t_Co=256               " 256色を使用
+" set showmatch              " ステータスラインを常に表示
+" set showmode               " 現在のモードを表示
+" set title                  " ターミナルのタイトルをセットする
+" set smartindent            " 改行時に自動的にインデントを増減する
+" set virtualedit=onemore    " 行末の1文字先までカーソルを移動できるようにする
+" set nowrap                 " 長い行を折り返ししない
+" set shell=$SHELL           " shell を設定
+" set nobackup               " バックアップファイル.swpを作成しない
+" set noswapfile             " 編集中にスワップファイルを作らない
+" set hlsearch               " 検索結果をハイライト
+" set ignorecase             " 検索に大文字小文字を区別しない
+" set smartcase              " 検索に大文字を含んでいたら大文字小文字を区別する
+" set incsearch              " インクリメンタルサーチ. 1文字入力毎に検索を実行
+" set expandtab              " タブ入力を複数の空白入力に置き換える
+" set tabstop=2              " 画面上でタブ文字が占める幅
+" set softtabstop=2          " 連続した空白でTabやBackspaceが適切に動く
+" set shiftwidth=2           " smartindentで増減する幅
+" set clipboard=unnamed      " 無名レジスタが更新されると Clipboard にも反映する
+" set sh=zsh                 " Shell を Zsh に
+" set cmdheight=2            " コマンドラインの高さを2行分に
+" set rtp+=/usr/local/opt/fzf " Runtime Path 設定
+" 
+" " neovim-remote
+" let nvrcmd      = "nvr --remote-wait"
+" let $VISUAL     = nvrcmd
+" let $GIT_EDITOR = nvrcmd
+" 
+" function! s:GetBufByte()
+"   let byte = line2byte(line('$') + 1)
+"   if byte == -1
+"     return 0
+"   else
+"     return byte - 1
+"   endif
+" endfunction
+" 
+" function! Term()
+"   setlocal nonumber
+"   call termopen(&shell, {'on_exit': 'OnExit'})
+" endfunction
+" 
+" if v:vim_did_enter != 0
+"   if @% == '' && s:GetBufByte() == 0
+"     " `$ vim` で起動した時に terminal mode から開始する
+"     execute 'terminal'
+"   else
+"     " 任意のファイルを開いたときに LSP を起動する.
+"     " auto enabling が機能しなかったため workaround.
+"     au VimEnter * call lsp#enable()
+"   endif
+" endif
+" 
+" " TODO ファイル形式の設定なので記述場所を変更する
+" " ファイル形式別インデントのロードを有効化する
+" filetype plugin indent on
+" 
+" " TODO 設定を別の場所に移動
+" let g:rustfmt_autosave = 1
+" 
+" let g:fern#renderer = "nerdfont"
+" 
+" " 各種設定の読み込み
+" " cf. https://mattn.kaoriya.net/software/vim/20191231001537.htm
+" call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})
+" 
+" " " https://github.com/palantir/python-language-server#configuration
+" " let g:lsp_settings = {
+" " \   'pylsp-all': {
+" " \     'workspace_config': {
+" " \       'pylsp': {
+" " \         'plugins': {
+" " \           'pycodestyle': {
+" " \             'ignore': ['E501']
+" " \           }
+" " \         }
+" " \       }
+" " \     }
+" " \   }
+" " \}
+" 
+" " let g:lsp_diagnostics_enabled = 0
+" 
+" 
+" call plug#begin()
+" " fzf
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+" " LSP
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'mattn/vim-lsp-settings'
+" " Fern = File tree viewer
+" Plug 'lambdalisue/fern.vim'
+" " Fern に git status を表示する
+" Plug 'lambdalisue/fern-git-status.vim'
+" " Fern にアイコンを追加する
+" Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+" " NerdFont. Fern アイコンに対応
+" Plug 'lambdalisue/nerdfont.vim'
+" " ファイルの差分を左端に表示
+" Plug 'airblade/vim-gitgutter'
+" " Fix CursorHold Performance
+" " https://github.com/antoinemadec/FixCursorHold.nvim
+" Plug 'antoinemadec/FixCursorHold.nvim'
+" call plug#end()

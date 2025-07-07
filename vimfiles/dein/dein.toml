@@ -83,6 +83,29 @@ let g:lsp_diagnostics_echo_cursor = 1
 let g:asyncomplete_auto_popup = 1
 let g:asyncomplete_auto_completeopt = 0
 let g:asyncomplete_popup_delay = 200
+
+" Lsp settings
+"
+" :LspStatus で表示される Language server 名が先頭にくる.
+" :echo lsp_settings#exec_path('pylsp-all') でパスが表示されるはず.
+" workspace_config はどこで取得するか不明.
+"
+" ex) pyls の具体的な設定: https://github.com/palantir/python-language-server#configuration
+"
+let g:lsp_settings = {
+\   'pylsp-all': {
+\     'workspace_config': {
+\       'pylsp': {
+\         'plugins': {
+\           'pycodestyle': {
+\             'ignore': ['E501']
+\           }
+\         }
+\       }
+\     }
+\   }
+\}
+
 '''
 
 # Vim LSP
@@ -119,3 +142,16 @@ let g:cursorhold_updatetime = 100
 # ファイルの差分を左端に表示
 [[plugins]]
 repo = "airblade/vim-gitgutter"
+
+
+[[plugins]]
+repo = 'posva/vim-vue'
+on_ft = 'vue'
+
+
+[[plugins]]
+repo = 'iamcco/markdown-preview.nvim'
+build = 'sh -c "cd app && yarn install"'
+
+[[plugins]]
+repo = 'leafgarland/typescript-vim'

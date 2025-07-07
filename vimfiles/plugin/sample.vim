@@ -1,1 +1,1 @@
-echo 'sample plugin file'
+" echo 'sample plugin file'

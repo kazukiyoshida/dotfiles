@@ -1,10 +1,12 @@
 #!/bin/zsh
 
-echo '---- zshrc ----'
+# echo '---- zshrc ----'
 
 #---------------------------------------------------------------------------------
 # Shell Options
 #---------------------------------------------------------------------------------
+
+export HISTSIZE=10000000000
 
 # Update default file permissions
 umask 022
@@ -112,12 +114,18 @@ alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
 alias t='tig'
+alias ti='tig'
 alias rust="evcxr"
 alias k="kubectl"
+alias vk="vksctl"
+alias m="make"
+alias c="cargo"
+alias r="rayl"
 
 # config files
 alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.config/nvim/init.vim"
+alias vimc="cd ~/.config/nvim"
 alias dein="vim ~/.config/nvim/dein.toml"
 alias deinl="vim ~/.config/nvim/dein_lazy.toml"
 alias tmuxconf="vim ~/.tmux.conf"
@@ -215,6 +223,8 @@ function peco-src () {
 zle -N peco-src
 bindkey '^]' peco-src
 
+setopt share_history
+
 # " ctrl + r " starts history incremental search
 setopt hist_ignore_all_dups
 
@@ -258,12 +268,10 @@ export RLS_ROOT=/Users/kazukiyoshida/code/src/github.com/rust-lang-nursery/rls/t
 
 # PATH 更新系の設定
 if [[ -z $ZSHRC_PATH_UPDATED ]]; then
-  # Go
-  export GOENV_ROOT="$HOME/.goenv"
-  export PATH="$GOENV_ROOT/bin:$PATH"
-  eval "$(goenv init -)"
-  # export PATH="$GOROOT/bin:$PATH"
-  export PATH="$GOPATH/bin:$PATH"
+  # export GOROOT=/usr/local/go
+  # export GOROOT="$(brew --prefix golang)/libexec"
+  # export GOROOT=$(go1.23 env GOROOT)
+  # export PATH=$PATH:$GOROOT/bin
 
   # python
   # export LD_LIBRARY_PATH=/usr/local/lib
@@ -305,3 +313,41 @@ export ZDOTDIR=$HOME
 if [ -f ~/.zsh.local ]; then
   source ~/.zsh.local
 fi
+
+
+export PATH="$PATH:/Users/jp29070/bin"
+
+# export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
+
+# export JENV_ROOT="$HOME/.jenv"
+# if [ -d "${JENV_ROOT}" ]; then
+#   export PATH="$JENV_ROOT/bin:$PATH"
+#   eval "$(jenv init -)"
+# fi
+
+# export M3_HOME=/usr/local/apache-maven-3.6.3
+# M3=$M3_HOME/bin
+# export PATH=$M3:$PATH
+
+# export JAVA_HOME=`/usr/libexec/java_home -v`
+
+
+# export PATH="/Users/jp29070/Downloads/Python38/bin:$PATH"
+
+# export PATH=/Users/jp29070/.tiup/bin:$PATH
+
+export PATH="${PATH}:${HOME}/.krew/bin"
+export PATH="${PATH}:/usr/local/opt/mysql/bin"
+
+source "$HOME/.rye/env"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/jp29070/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# export GOPATH=/Users/jp29070/go
+# export PATH=$GOPATH/bin:$PATH
+
+. "$HOME/.local/bin/env"
+
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
