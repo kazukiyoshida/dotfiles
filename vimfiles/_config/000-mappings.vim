@@ -3,6 +3,9 @@
 "----------------------------------------------------------------------
 " cf. vimでキーマッピングする際に考えたほうがいいこと
 " http://deris.hatenablog.jp/entry/2013/05/02/192415
+"
+" cf. Key mappingの設定を確認する
+" https://vim-jp.org/vim-users-jp/2010/05/20/Hack-148.html
 
 " Esc 系
 nnoremap <Esc><Esc> :<C-u>set nohlsearch<CR>
@@ -16,9 +19,9 @@ nmap * *zz
 nmap # #zz
 nmap <C-o> <C-o>zz
 
-nnoremap <C-t><C-t> :Term<CR>
 nnoremap <C-s><C-s> :sp<CR>
 nnoremap <C-v><C-v> :vsp<CR>
+
 nnoremap <C-p> viwc<C-r>0<ESC>
 
 " Window 移動
@@ -28,7 +31,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " Buffer 切り替え
-nnoremap <C-]> :bn<CR>
+nnoremap <C-]> :bp<CR>
 nnoremap <C-m> :bn<CR>
 
 " *** easy motion -> S Key

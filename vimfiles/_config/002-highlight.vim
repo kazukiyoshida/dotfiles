@@ -25,4 +25,4 @@ highlight SpecialKey ctermfg=18
 
 " https://github.com/w0ng/vim-hybrid
 " download vimfile to ~/.vim/colors/hybrid.vim
-colorscheme hybrid
+colorscheme night-owl

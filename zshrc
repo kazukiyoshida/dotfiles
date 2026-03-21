@@ -1,7 +1,5 @@
 #!/bin/zsh
 
-echo '---- zshrc ----'
-
 #---------------------------------------------------------------------------------
 # Shell Options
 #---------------------------------------------------------------------------------
@@ -123,6 +121,12 @@ alias deinl="vim ~/.config/nvim/dein_lazy.toml"
 alias tmuxconf="vim ~/.tmux.conf"
 
 alias sz="source ~/.zshrc"
+
+alias vimconf="cd ~/.config/nvim/"
+
+alias m="make"
+
+alias md="open -a typora"
 
 # 'r' コマンドを使用しない
 disable r
@@ -259,26 +263,26 @@ export RLS_ROOT=/Users/kazukiyoshida/code/src/github.com/rust-lang-nursery/rls/t
 # PATH 更新系の設定
 if [[ -z $ZSHRC_PATH_UPDATED ]]; then
   # Go
-  export GOENV_ROOT="$HOME/.goenv"
-  export PATH="$GOENV_ROOT/bin:$PATH"
-  eval "$(goenv init -)"
+  # export GOPATH=$HOME/go
+  # export GOENV_ROOT="$HOME/.goenv"
+  # export PATH="$GOENV_ROOT/bin:$PATH"
+  # eval "$(goenv init -)"
   # export PATH="$GOROOT/bin:$PATH"
-  export PATH="$GOPATH/bin:$PATH"
+  # export PATH="$GOPATH/bin:$PATH"
 
   # python
   # export LD_LIBRARY_PATH=/usr/local/lib
   export PYTHONDONTWRITEBYTECODE=1 # pycache作成しない
-  export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init --path)"
 
   # Node
-  export NODEBREW_HOME=/usr/local/var/nodebrew/current
-  export NODEBREW_ROOT=/usr/local/var/nodebrew
-  export PATH="$HOME/.nodenv/shims:$PATH"
+  export PATH=$HOME/.nodebrew/current/bin:$PATH
 
   export PATH="$PATH:$HOME/.cargo/bin"
 
+  export PATH="$PATH:$HOME/flutter/bin"
+
+  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home
+  export PATH=$PATH:/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/bin
 
   export ZSHRC_PATH_UPDATED=1
 fi
@@ -305,3 +309,40 @@ export ZDOTDIR=$HOME
 if [ -f ~/.zsh.local ]; then
   source ~/.zsh.local
 fi
+
+# export PATH="$HOME/.poetry/bin:$PATH"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+eval "$(nodenv init -)"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/yoshidakazuki/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+source /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh
+PROMPT='$(kube_ps1)'$PROMPT
+
+. "$HOME/.local/bin/env"
+
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/yoshidakazuki/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yoshidakazuki/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/yoshidakazuki/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yoshidakazuki/google-cloud-sdk/completion.zsh.inc'; fi
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/gitlab
+
+# .NET 環境設定
+export DOTNET_ROOT=/usr/local/share/dotnet
+export PATH=$DOTNET_ROOT:$PATH
+
+# Added by Antigravity
+export PATH="/Users/yoshidakazuki/.antigravity/antigravity/bin:$PATH"
+
+# .NET Core SDK tools
+export PATH="$PATH:/Users/yoshidakazuki/.dotnet/tools"
