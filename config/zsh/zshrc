@@ -210,11 +210,6 @@ bindkey '^r' fzf_select_history
 # User Shell Environment
 #-------------------------------------------------------------------------------
 
-# read local settings
-if [[ -f ~/.zshrc.local ]]; then
-  source ~/.zshrc.local
-fi
-
 # Zsh autoload
 # 独自 autoload を格納する場所
 export FPATH="$HOME/.zsh/autoload/:$FPATH"
@@ -260,48 +255,11 @@ export FZF_DEFAULT_OPTS='--height 40% --reverse --border --prompt="P " --header=
 
 export ZDOTDIR=$HOME
 
-# 端末固有の設定ファイル
-if [ -f ~/.zsh.local ]; then
-  source ~/.zsh.local
+#---------------------------------------------------------------------------------
+# Local settings
+#   PC-specific config goes in ~/.zshrc.local (not tracked by git).
+#   See docs/zshrc-local.md for examples.
+#---------------------------------------------------------------------------------
+if [[ -f ~/.zshrc.local ]]; then
+  source ~/.zshrc.local
 fi
-
-export PATH="$PATH":"$HOME/.pub-cache/bin"
-
-if command -v nodenv &>/dev/null; then
-  eval "$(nodenv init -)"
-fi
-
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
-# kube-ps1
-local kube_ps1_path="/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-if [ -f "$kube_ps1_path" ]; then
-  source "$kube_ps1_path"
-  PROMPT='$(kube_ps1)'$PROMPT
-fi
-
-[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
-
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
-
-# SSH agent (reuse existing agent if available)
-if [ -z "$SSH_AUTH_SOCK" ]; then
-  eval "$(ssh-agent -s)" > /dev/null
-  ssh-add ~/.ssh/gitlab 2>/dev/null
-fi
-
-# .NET 環境設定
-export DOTNET_ROOT=/usr/local/share/dotnet
-export PATH=$DOTNET_ROOT:$PATH
-
-# Added by Antigravity
-export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
-
-# .NET Core SDK tools
-export PATH="$PATH:$HOME/.dotnet/tools"

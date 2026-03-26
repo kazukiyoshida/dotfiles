@@ -60,6 +60,8 @@ Safe to run multiple times (idempotent). Directories are created automatically i
 
 ### Optional
 
+These are configured per-machine in `~/.zshrc.local` (see [docs/zshrc-local.md](docs/zshrc-local.md)).
+
 | Tool | Purpose |
 |------|---------|
 | [nodenv](https://github.com/nodenv/nodenv) | Node.js version manager |
