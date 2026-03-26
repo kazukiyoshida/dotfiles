@@ -19,8 +19,6 @@ lint-zsh:
 	@echo "==> zsh syntax..."
 	zsh -n config/zsh/zshrc
 	zsh -n config/zsh/zprofile
-	zsh -n config/zsh/zshenv
-	zsh -n config/zsh/zlogin
 
 # Deploy dotfiles (create symlinks)
 deploy:

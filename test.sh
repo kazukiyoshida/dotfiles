@@ -33,10 +33,9 @@ echo ""
 echo "[zsh]"
 
 check ".zshrc linked"              test -L "$HOME/.zshrc" -a -r "$HOME/.zshrc"
+check ".zprofile linked"           test -L "$HOME/.zprofile" -a -r "$HOME/.zprofile"
 check "zshrc parses without error"  zsh -n "$HOME/.zshrc"
 check "zprofile parses without error" zsh -n "$HOME/.zprofile"
-check "zshenv parses without error" zsh -n "$HOME/.zshenv"
-check "zlogin parses without error" zsh -n "$HOME/.zlogin"
 check "EDITOR is set via zshrc"     zsh -c "source \"\$HOME/.zshrc\" 2>/dev/null; [ \"\$EDITOR\" = vim ]"
 
 # ---------------------------------------------------------------------------

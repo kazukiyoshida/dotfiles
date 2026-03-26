@@ -108,7 +108,7 @@ CONF="$DOTFILES_DIR/config"
 
 # --- Shell -----------------------------------------------------------------
 info "Linking shell config..."
-for f in zshenv zshrc zlogin zprofile; do
+for f in zshrc zprofile; do
   link_file "$CONF/zsh/$f" "$HOME/.$f"
 done
 
