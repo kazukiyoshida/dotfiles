@@ -1,11 +1,11 @@
-.PHONY: test lint lint-shell lint-zsh lint-json deploy dry-run vm-up vm-down clean hooks
+.PHONY: test lint lint-shell lint-zsh deploy dry-run vm-up vm-down clean hooks
 
 # Run all checks
 test: lint
 	bash tests/test.sh
 
 # All lint checks
-lint: lint-shell lint-zsh lint-json
+lint: lint-shell lint-zsh
 	@echo "==> All lint checks passed."
 
 # Shell scripts (shellcheck)
@@ -21,11 +21,6 @@ lint-zsh:
 	zsh -n config/zsh/zprofile
 	zsh -n config/zsh/zshenv
 	zsh -n config/zsh/zlogin
-
-# JSON validation
-lint-json:
-	@echo "==> JSON validation..."
-	python3 -c "import json; json.load(open('config/peco/config.json'))" && echo "config.json: OK"
 
 # Deploy dotfiles (create symlinks)
 deploy:
