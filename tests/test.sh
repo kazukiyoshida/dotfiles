@@ -1,4 +1,6 @@
 #!/bin/bash
+# test.sh - ローカル簡易テスト (ツール不要、どの環境でも動く)
+# 実行タイミング: pre-push hook (make test)
 set -e
 
 PASS=0
@@ -17,61 +19,38 @@ check() {
   fi
 }
 
-echo "=== Dotfiles Test Suite (macOS) ==="
+echo "=== Dotfiles Test (local) ==="
 
 # ---------------------------------------------------------------------------
 echo ""
 echo "[link.sh]"
 
-# 1回目: エラーなく完了すること
 check "link.sh runs without error" bash "$SCRIPT_DIR/bin/link.sh"
-
-# 2回目: 冪等性 (再実行してもエラーにならない)
 check "link.sh is idempotent (2nd run)" bash "$SCRIPT_DIR/bin/link.sh"
 
 # ---------------------------------------------------------------------------
 echo ""
-echo "[zsh]"
+echo "[symlinks]"
 
-# zshrc が読み込み可能なシンボリックリンクか
-check ".zshrc is a valid symlink" test -L "$HOME/.zshrc" -a -r "$HOME/.zshrc"
-
-# 構文エラーがないか
-check "zshrc parses without error" zsh -n "$HOME/.zshrc"
-check "zprofile parses without error" zsh -n "$HOME/.zprofile"
-
-# EDITOR が設定されているか (zshrc で export している)
-check "EDITOR is set via zshrc" zsh -c "source \"\$HOME/.zshrc\" 2>/dev/null; [ -n \"\$EDITOR\" ]"
-
-# ---------------------------------------------------------------------------
-echo ""
-echo "[tmux]"
-
-# 設定ファイルが読み込み可能か
-check ".tmux.conf is a valid symlink" test -L "$HOME/.tmux.conf" -a -r "$HOME/.tmux.conf"
-
-# tmux が設定を構文エラーなく読み込めるか
-check "tmux.conf parses without error" tmux -f "$HOME/.tmux.conf" start-server \; kill-server
-
-# prefix が C-q に設定されているか
-check "tmux prefix is C-q" grep -q 'set -g prefix C-q' "$HOME/.tmux.conf"
+check ".zshrc linked"             test -L "$HOME/.zshrc"           -a -r "$HOME/.zshrc"
+check ".zprofile linked"          test -L "$HOME/.zprofile"        -a -r "$HOME/.zprofile"
+check ".tmux.conf linked"         test -L "$HOME/.tmux.conf"       -a -r "$HOME/.tmux.conf"
+check ".tigrc linked"             test -L "$HOME/.tigrc"           -a -r "$HOME/.tigrc"
+check "nvim/init.vim linked"      test -L "$HOME/.config/nvim/init.vim"      -a -r "$HOME/.config/nvim/init.vim"
+check "nvim/_config linked"       test -L "$HOME/.config/nvim/_config"       -a -d "$HOME/.config/nvim/_config"
+check "nvim/autoload linked"      test -L "$HOME/.config/nvim/autoload"      -a -d "$HOME/.config/nvim/autoload"
+check "nvim/plugin linked"        test -L "$HOME/.config/nvim/plugin"        -a -d "$HOME/.config/nvim/plugin"
+check "nvim/dein.toml linked"     test -L "$HOME/.config/nvim/dein.toml"     -a -r "$HOME/.config/nvim/dein.toml"
+check "nvim/dein_lazy.toml linked" test -L "$HOME/.config/nvim/dein_lazy.toml" -a -r "$HOME/.config/nvim/dein_lazy.toml"
+check "peco/config.json linked"   test -L "$HOME/.config/peco/config.json"   -a -r "$HOME/.config/peco/config.json"
 
 # ---------------------------------------------------------------------------
 echo ""
-echo "[nvim]"
+echo "[config content]"
 
-# init.vim が読み込み可能か
-check "nvim/init.vim is a valid symlink" test -L "$HOME/.config/nvim/init.vim" -a -r "$HOME/.config/nvim/init.vim"
-
-# 設定ディレクトリが揃っているか
-check "_config dir linked" test -L "$HOME/.config/nvim/_config" -a -d "$HOME/.config/nvim/_config"
-check "autoload dir linked" test -L "$HOME/.config/nvim/autoload" -a -d "$HOME/.config/nvim/autoload"
-check "plugin dir linked" test -L "$HOME/.config/nvim/plugin" -a -d "$HOME/.config/nvim/plugin"
-check "dein.toml linked" test -L "$HOME/.config/nvim/dein.toml" -a -r "$HOME/.config/nvim/dein.toml"
-check "dein_lazy.toml linked" test -L "$HOME/.config/nvim/dein_lazy.toml" -a -r "$HOME/.config/nvim/dein_lazy.toml"
-
-# nvim が設定を読み込んでエラーなく起動・終了できるか
-check "nvim loads config without error" nvim --headless -c 'qall' 2>&1
+check "tmux prefix is C-q"        grep -q 'set -g prefix C-q' "$HOME/.tmux.conf"
+check "EDITOR=vim in zshrc"        grep -q 'EDITOR="vim"' "$HOME/.zshrc"
+check "nvim loads _config via glob" grep -q 'globpath' "$HOME/.config/nvim/init.vim"
 
 # ---------------------------------------------------------------------------
 echo ""

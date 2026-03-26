@@ -1,4 +1,4 @@
-.PHONY: test lint lint-shell lint-zsh deploy dry-run vm-up vm-down clean hooks
+.PHONY: test e2e lint lint-shell lint-zsh deploy dry-run vm-up vm-down clean hooks
 
 # Run all checks
 test: lint
@@ -8,11 +8,16 @@ test: lint
 lint: lint-shell lint-zsh
 	@echo "==> All lint checks passed."
 
+# E2E tests (macOS required)
+e2e: lint
+	bash tests/e2etest.sh
+
 # Shell scripts (shellcheck)
 lint-shell:
 	@echo "==> shellcheck..."
 	shellcheck bin/link.sh
 	shellcheck tests/test.sh
+	shellcheck tests/e2etest.sh
 
 # Zsh syntax (zsh -n)
 lint-zsh:
