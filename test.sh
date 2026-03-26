@@ -62,7 +62,7 @@ check "nvim loads config without error" nvim --headless -c 'qall'
 echo ""
 echo "[tig]"
 
-check ".tigrc linked"              test -L "$HOME/.tigrc" -a -r "$HOME/.tigrc"
+check "tig/config linked"          test -L "$HOME/.config/tig/config" -a -r "$HOME/.config/tig/config"
 
 # ---------------------------------------------------------------------------
 echo ""

@@ -13,6 +13,7 @@ lint-shell:
 	@echo "==> shellcheck..."
 	shellcheck link.sh
 	shellcheck test.sh
+	shellcheck setup.sh
 
 # Zsh syntax (zsh -n)
 lint-zsh:

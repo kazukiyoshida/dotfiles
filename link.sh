@@ -118,7 +118,8 @@ link_file "$CONF/tmux/tmux.conf" "$HOME/.tmux.conf"
 
 # --- Tig -------------------------------------------------------------------
 info "Linking tig config..."
-link_file "$CONF/tig/tigrc" "$HOME/.tigrc"
+ensure_dir "$HOME/.config/tig"
+link_file "$CONF/tig/tigrc" "$HOME/.config/tig/config"
 
 # --- Neovim ----------------------------------------------------------------
 info "Linking Neovim config..."
@@ -132,11 +133,6 @@ link_file "$CONF/nvim/dein/dein_lazy.toml"  "$HOME/.config/nvim/dein_lazy.toml"
 link_dir "$CONF/nvim/_config"  "$HOME/.config/nvim/_config"
 link_dir "$CONF/nvim/autoload" "$HOME/.config/nvim/autoload"
 link_dir "$CONF/nvim/plugin"   "$HOME/.config/nvim/plugin"
-
-# --- Tig (XDG) -------------------------------------------------------------
-info "Linking tig XDG config..."
-ensure_dir "$HOME/.config/tig"
-link_file "$CONF/tig/tigrc" "$HOME/.config/tig/config"
 
 echo ""
 info "Done."
