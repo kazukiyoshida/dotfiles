@@ -11,10 +11,6 @@ set log-view = line-number:yes,interval=1 text
 set blob-view = line-number:yes,interval=1 text
 set diff-view = line-number:yes,interval=1 text:yes,commit-title-overflow=no
 
-bind generic G none
-bind generic g move-first-line
-bind generic G move-last-line
-
 # ` で commit ID をクリップボードにコピー (Mac用)
 bind generic ` @bash -c "echo -n '%(commit)' | pbcopy"
 
@@ -22,7 +18,7 @@ bind generic ` @bash -c "echo -n '%(commit)' | pbcopy"
 bind stage ` @bash -c "echo -n '%(file)' | pbcopy"
 bind status ` @bash -c "echo -n '%(file)' | pbcopy"
 bind tree ` @bash -c "echo -n '%(file)' | pbcopy"
-bind blob ` @bash -c "echo -n '%(file)' | pbcopy"`
+bind blob ` @bash -c "echo -n '%(file)' | pbcopy"
 
 # g をファイル先頭に移動に変更、view-grep を再割当て
 bind generic g move-first-line

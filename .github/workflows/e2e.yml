@@ -1,0 +1,20 @@
+name: E2E Test
+
+on:
+  push:
+    branches: [master, "refactor/**"]
+  pull_request:
+    branches: [master]
+
+jobs:
+  e2e:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew install neovim tmux tig fzf ripgrep shellcheck
+
+      - name: Run E2E tests
+        run: bash test.sh

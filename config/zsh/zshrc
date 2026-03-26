@@ -94,7 +94,6 @@ prompt_git
 alias d='docker'
 alias dp='docker-compose'
 alias dcp='yes | docker container prune'
-alias dip='yes | docker container prune'
 
 # Git aliases
 alias gp='git push origin HEAD'
@@ -110,7 +109,6 @@ alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
 alias t='tig'
-alias rust="evcxr"
 alias k="kubectl"
 
 # config files
@@ -126,7 +124,9 @@ alias vimconf="cd ~/.config/nvim/"
 
 alias m="make"
 
-alias md="open -a typora"
+if [[ "$(uname)" == "Darwin" ]]; then
+  alias md="open -a typora"
+fi
 
 # 'r' コマンドを使用しない
 disable r
@@ -165,11 +165,11 @@ function ras() {
 
 # grap はファイル内検索とエディタの起動を行う
 function grap() {
-  file_and_line=$(ag $* | peco | awk -F: '{printf $1 ":" $2}')
-  filepath=$( echo $file_and_line | awk -F: '{printf $1}' )
-  lines=$( echo $file_and_line | awk -F: '{printf $2}' )
-  if [ -n "$filepath" ]; then
-    vim $filepath "+"$lines
+  local result=$(rg --line-number "$@" | fzf --delimiter=: --preview 'bat --color=always --highlight-line {2} {1} 2>/dev/null || head -n $(({2}+10)) {1} | tail -n 20')
+  if [ -n "$result" ]; then
+    local filepath=$(echo "$result" | awk -F: '{print $1}')
+    local line=$(echo "$result" | awk -F: '{print $2}')
+    vim "$filepath" "+$line"
   fi
 }
 
@@ -177,13 +177,6 @@ function grap() {
 function dps() {
   echo "cont_id        status        name                          image"
   docker ps --format "{{.ID}}   {{.Status}}   {{.Names}}   {{.Image}}"
-}
-
-# rust_rn は Rust の単一ファイルをコンパイル & 実行する
-function rust_run() {
-    rustc $1
-    local binary=$(basename $1 .rs)
-    ./$binary
 }
 
 #---------------------------------------------------------------------------------
@@ -202,48 +195,20 @@ bindkey -M viins '^K'  kill-line
 # Plugins
 #---------------------------------------------------------------------------------
 
-# Peco
-function find_cd() {
-  cd "$(find . -type d | peco)"
-}
-
-# " ctrl + ] " starts incremental repo search
-function peco-src () {
-  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
-  if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
-    zle accept-line
-  fi
-  zle clear-screen
-}
-zle -N peco-src
-bindkey '^]' peco-src
-
 # " ctrl + r " starts history incremental search
 setopt hist_ignore_all_dups
 
-function peco_select_history() {
-  local tac
-  if which tac > /dev/null; then
-    tac="tac"
-  else
-    tac="tail -r"
-  fi
-  BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
+function fzf_select_history() {
+  BUFFER=$(fc -l -n 1 | tail -r | fzf --query "$LBUFFER")
   CURSOR=$#BUFFER
   zle clear-screen
 }
-zle -N peco_select_history
-bindkey '^r' peco_select_history
+zle -N fzf_select_history
+bindkey '^r' fzf_select_history
 
 #-------------------------------------------------------------------------------
 # User Shell Environment
 #-------------------------------------------------------------------------------
-
-# read local settings
-if [[ -f ~/.zshrc.local ]]; then
-  source ~/.zshrc.local
-fi
 
 # Zsh autoload
 # 独自 autoload を格納する場所
@@ -253,36 +218,21 @@ export FPATH="$HOME/.zsh/autoload/:$FPATH"
 autoload -U compinit
 compinit
 
-# git, peco などの設定ファイル
 export XDG_CONFIG_HOME=$HOME/.config
-
-# Rust
-export LD_LIBRARY_PATH=$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib
-export RLS_ROOT=/Users/kazukiyoshida/code/src/github.com/rust-lang-nursery/rls/target/release/rls
 
 # PATH 更新系の設定
 if [[ -z $ZSHRC_PATH_UPDATED ]]; then
-  # Go
-  # export GOPATH=$HOME/go
-  # export GOENV_ROOT="$HOME/.goenv"
-  # export PATH="$GOENV_ROOT/bin:$PATH"
-  # eval "$(goenv init -)"
-  # export PATH="$GOROOT/bin:$PATH"
-  # export PATH="$GOPATH/bin:$PATH"
-
-  # python
-  # export LD_LIBRARY_PATH=/usr/local/lib
-  export PYTHONDONTWRITEBYTECODE=1 # pycache作成しない
+  export PYTHONDONTWRITEBYTECODE=1
 
   # Node
   export PATH=$HOME/.nodebrew/current/bin:$PATH
 
-  export PATH="$PATH:$HOME/.cargo/bin"
-
-  export PATH="$PATH:$HOME/flutter/bin"
-
-  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home
-  export PATH=$PATH:/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/bin
+  # Java
+  local java_dir=$(ls -d /Library/Java/JavaVirtualMachines/*/Contents/Home 2>/dev/null | head -1)
+  if [ -n "$java_dir" ]; then
+    export JAVA_HOME="$java_dir"
+    export PATH="$PATH:$JAVA_HOME/bin"
+  fi
 
   export ZSHRC_PATH_UPDATED=1
 fi
@@ -305,44 +255,11 @@ export FZF_DEFAULT_OPTS='--height 40% --reverse --border --prompt="P " --header=
 
 export ZDOTDIR=$HOME
 
-# 端末固有の設定ファイル
-if [ -f ~/.zsh.local ]; then
-  source ~/.zsh.local
+#---------------------------------------------------------------------------------
+# Local settings
+#   PC-specific config goes in ~/.zshrc.local (not tracked by git).
+#   See docs/zshrc-local.md for examples.
+#---------------------------------------------------------------------------------
+if [[ -f ~/.zshrc.local ]]; then
+  source ~/.zshrc.local
 fi
-
-# export PATH="$HOME/.poetry/bin:$PATH"
-export PATH="$PATH":"$HOME/.pub-cache/bin"
-
-eval "$(nodenv init -)"
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/yoshidakazuki/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
-source /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh
-PROMPT='$(kube_ps1)'$PROMPT
-
-. "$HOME/.local/bin/env"
-
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/yoshidakazuki/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yoshidakazuki/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/yoshidakazuki/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yoshidakazuki/google-cloud-sdk/completion.zsh.inc'; fi
-
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/gitlab
-
-# .NET 環境設定
-export DOTNET_ROOT=/usr/local/share/dotnet
-export PATH=$DOTNET_ROOT:$PATH
-
-# Added by Antigravity
-export PATH="/Users/yoshidakazuki/.antigravity/antigravity/bin:$PATH"
-
-# .NET Core SDK tools
-export PATH="$PATH:/Users/yoshidakazuki/.dotnet/tools"
