@@ -5,6 +5,7 @@ A file for [guiding coding agents](https://agents.md/).
 ## Overview
 
 macOS 専用の dotfiles リポジトリ。zsh, neovim, tmux, tig の設定を管理する。
+必須ツール: Homebrew, Neovim, tmux, fzf, ripgrep, tig
 
 ## Commands
 

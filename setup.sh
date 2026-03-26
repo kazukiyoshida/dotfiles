@@ -7,7 +7,7 @@ set -eu
 
 DOTFILES_REPO="https://github.com/kazukiyoshida/dotfiles.git"
 DOTFILES_DIR="$HOME/dotfiles"
-BREW_PACKAGES="neovim tmux fzf ripgrep tig ghq"
+BREW_PACKAGES="neovim tmux fzf ripgrep tig"
 
 info() { printf '\033[0;36m[info]\033[0m  %s\n' "$1"; }
 ok()   { printf '\033[0;32m[ok]\033[0m    %s\n' "$1"; }

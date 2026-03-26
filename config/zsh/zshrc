@@ -109,7 +109,6 @@ alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
 alias t='tig'
-alias rust="evcxr"
 alias k="kubectl"
 
 # config files
@@ -180,13 +179,6 @@ function dps() {
   docker ps --format "{{.ID}}   {{.Status}}   {{.Names}}   {{.Image}}"
 }
 
-# rust_rn は Rust の単一ファイルをコンパイル & 実行する
-function rust_run() {
-    rustc $1
-    local binary=$(basename $1 .rs)
-    ./$binary
-}
-
 #---------------------------------------------------------------------------------
 # Key mapping
 #---------------------------------------------------------------------------------
@@ -202,18 +194,6 @@ bindkey -M viins '^K'  kill-line
 #---------------------------------------------------------------------------------
 # Plugins
 #---------------------------------------------------------------------------------
-
-# " ctrl + ] " starts incremental repo search
-function fzf-src () {
-  local selected_dir=$(ghq list -p | fzf --query "$LBUFFER")
-  if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
-    zle accept-line
-  fi
-  zle clear-screen
-}
-zle -N fzf-src
-bindkey '^]' fzf-src
 
 # " ctrl + r " starts history incremental search
 setopt hist_ignore_all_dups
@@ -243,31 +223,14 @@ export FPATH="$HOME/.zsh/autoload/:$FPATH"
 autoload -U compinit
 compinit
 
-# git, peco などの設定ファイル
 export XDG_CONFIG_HOME=$HOME/.config
 
-# Rust
-export LD_LIBRARY_PATH=$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib
 # PATH 更新系の設定
 if [[ -z $ZSHRC_PATH_UPDATED ]]; then
-  # Go
-  # export GOPATH=$HOME/go
-  # export GOENV_ROOT="$HOME/.goenv"
-  # export PATH="$GOENV_ROOT/bin:$PATH"
-  # eval "$(goenv init -)"
-  # export PATH="$GOROOT/bin:$PATH"
-  # export PATH="$GOPATH/bin:$PATH"
-
-  # python
-  # export LD_LIBRARY_PATH=/usr/local/lib
-  export PYTHONDONTWRITEBYTECODE=1 # pycache作成しない
+  export PYTHONDONTWRITEBYTECODE=1
 
   # Node
   export PATH=$HOME/.nodebrew/current/bin:$PATH
-
-  export PATH="$PATH:$HOME/.cargo/bin"
-
-  export PATH="$PATH:$HOME/flutter/bin"
 
   # Java
   local java_dir=$(ls -d /Library/Java/JavaVirtualMachines/*/Contents/Home 2>/dev/null | head -1)
@@ -302,16 +265,11 @@ if [ -f ~/.zsh.local ]; then
   source ~/.zsh.local
 fi
 
-# export PATH="$HOME/.poetry/bin:$PATH"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 if command -v nodenv &>/dev/null; then
   eval "$(nodenv init -)"
 fi
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="$HOME/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 

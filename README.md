@@ -54,10 +54,9 @@ Safe to run multiple times (idempotent). Directories are created automatically i
 | [Homebrew](https://brew.sh/) | Package manager |
 | [Neovim](https://neovim.io/) | Editor (aliased to `vim` / `vi` / `v`) |
 | [tmux](https://github.com/tmux/tmux) | Terminal multiplexer (prefix: `C-q`) |
-| [fzf](https://github.com/junegunn/fzf) | Fuzzy finder (`C-r`: history, `C-]`: ghq repos) |
+| [fzf](https://github.com/junegunn/fzf) | Fuzzy finder (`C-r`: history search) |
 | [ripgrep](https://github.com/BurntSushi/ripgrep) | Fast grep (used by `grap` function) |
 | [tig](https://jonas.github.io/tig/) | Git TUI |
-| [ghq](https://github.com/x-motemen/ghq) | Repository manager (`C-]` to select) |
 
 ### Optional
 
@@ -67,11 +66,8 @@ Safe to run multiple times (idempotent). Directories are created automatically i
 | [asdf](https://asdf-vm.com/) | Runtime version manager |
 | [kubectl](https://kubernetes.io/docs/tasks/tools/) + [krew](https://krew.sigs.k8s.io/) | Kubernetes CLI (`k` alias) |
 | [kube-ps1](https://github.com/jonmosco/kube-ps1) | Kubernetes context in prompt |
-| [Rancher Desktop](https://rancherdesktop.io/) | Container runtime |
 | [Google Cloud SDK](https://cloud.google.com/sdk) | gcloud CLI |
 | [.NET SDK](https://dotnet.microsoft.com/) | .NET development |
-| [Rust](https://www.rust-lang.org/) | Rust toolchain (cargo, rustc) |
-| [Flutter](https://flutter.dev/) | Mobile development |
 | [Docker](https://www.docker.com/) | Containers (`d`, `dp`, `dke` aliases) |
 
 ## Structure
