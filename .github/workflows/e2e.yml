@@ -17,4 +17,4 @@ jobs:
           brew install neovim tmux tig peco fzf ripgrep
 
       - name: Run E2E tests
-        run: bash tests/e2etest.sh
+        run: bash test.sh

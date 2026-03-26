@@ -5,12 +5,11 @@ set -eu
 # ---------------------------------------------------------------------------
 # Dotfiles deploy script
 #   Idempotent: safe to run multiple times.
-#   Usage: bin/link.sh [--dry-run]
+#   Usage: ./link.sh [--dry-run]
 # ---------------------------------------------------------------------------
 
-# --- Resolve DOTFILES_DIR (parent of the directory containing this script) --
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+# --- Resolve DOTFILES_DIR (directory containing this script) ---------------
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # --- Options ---------------------------------------------------------------
 DRY_RUN=false

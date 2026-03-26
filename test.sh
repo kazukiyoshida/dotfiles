@@ -1,11 +1,11 @@
 #!/bin/bash
-# e2etest.sh - macOS 上での E2E テスト (zsh, tmux, nvim が必要)
+# test.sh - macOS 上での E2E テスト (zsh, tmux, nvim が必要)
 # 実行タイミング: GitHub Actions (macos-latest)
 set -e
 
 PASS=0
 FAIL=0
-SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 check() {
   local desc="$1"
@@ -25,8 +25,8 @@ echo "=== Dotfiles E2E Test (macOS) ==="
 echo ""
 echo "[deploy]"
 
-check "link.sh runs without error" bash "$SCRIPT_DIR/bin/link.sh"
-check "link.sh is idempotent (2nd run)" bash "$SCRIPT_DIR/bin/link.sh"
+check "link.sh runs without error" bash "$SCRIPT_DIR/link.sh"
+check "link.sh is idempotent (2nd run)" bash "$SCRIPT_DIR/link.sh"
 
 # ---------------------------------------------------------------------------
 echo ""
