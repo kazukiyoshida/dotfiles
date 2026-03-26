@@ -67,12 +67,5 @@ check ".tigrc linked"              test -L "$HOME/.tigrc" -a -r "$HOME/.tigrc"
 
 # ---------------------------------------------------------------------------
 echo ""
-echo "[peco]"
-
-check "peco/config.json linked"    test -L "$HOME/.config/peco/config.json" -a -r "$HOME/.config/peco/config.json"
-check "peco config is valid JSON"   python3 -c "import json; json.load(open('$HOME/.config/peco/config.json'))"
-
-# ---------------------------------------------------------------------------
-echo ""
 echo "=== Results: $PASS passed, $FAIL failed ==="
 [ "$FAIL" -eq 0 ] && exit 0 || exit 1

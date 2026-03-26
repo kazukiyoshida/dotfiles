@@ -120,11 +120,6 @@ link_file "$CONF/tmux/tmux.conf" "$HOME/.tmux.conf"
 info "Linking tig config..."
 link_file "$CONF/tig/tigrc" "$HOME/.tigrc"
 
-# --- Peco ------------------------------------------------------------------
-info "Linking peco config..."
-ensure_dir "$HOME/.config/peco"
-link_file "$CONF/peco/config.json" "$HOME/.config/peco/config.json"
-
 # --- Neovim ----------------------------------------------------------------
 info "Linking Neovim config..."
 ensure_dir "$HOME/.config/nvim"

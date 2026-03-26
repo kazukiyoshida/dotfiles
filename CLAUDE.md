@@ -4,7 +4,7 @@ A file for [guiding coding agents](https://agents.md/).
 
 ## Overview
 
-macOS 専用の dotfiles リポジトリ。zsh, neovim, tmux, tig, peco の設定を管理する。
+macOS 専用の dotfiles リポジトリ。zsh, neovim, tmux, tig の設定を管理する。
 
 ## Commands
 
@@ -39,7 +39,6 @@ config/                  # symlink対象のdotfiles
   nvim/                  #   init.vim, _config/, autoload/, dein/, plugin/
   tmux/                  #   tmux.conf
   tig/                   #   tigrc
-  peco/                  #   config.json
 link.sh                  # デプロイスクリプト (symlink作成)
 test.sh                  # macOS E2E テスト (GitHub Actions)
 pre-commit               # git pre-commit hook

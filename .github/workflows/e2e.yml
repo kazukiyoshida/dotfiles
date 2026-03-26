@@ -14,7 +14,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install neovim tmux tig peco fzf ripgrep
+          brew install neovim tmux tig fzf ripgrep
 
       - name: Run E2E tests
         run: bash test.sh
