@@ -12,13 +12,13 @@ set blob-view = line-number:yes,interval=1 text
 set diff-view = line-number:yes,interval=1 text:yes,commit-title-overflow=no
 
 # ` で commit ID をクリップボードにコピー (Mac用)
-bind generic ` @bash -c "echo -n '%(commit)' | (pbcopy 2>/dev/null || xclip -selection clipboard 2>/dev/null || xsel --clipboard 2>/dev/null)"
+bind generic ` @bash -c "echo -n '%(commit)' | pbcopy"
 
 # ` でファイルパスをクリップボードにコピー (Mac用)
-bind stage ` @bash -c "echo -n '%(file)' | (pbcopy 2>/dev/null || xclip -selection clipboard 2>/dev/null || xsel --clipboard 2>/dev/null)"
-bind status ` @bash -c "echo -n '%(file)' | (pbcopy 2>/dev/null || xclip -selection clipboard 2>/dev/null || xsel --clipboard 2>/dev/null)"
-bind tree ` @bash -c "echo -n '%(file)' | (pbcopy 2>/dev/null || xclip -selection clipboard 2>/dev/null || xsel --clipboard 2>/dev/null)"
-bind blob ` @bash -c "echo -n '%(file)' | (pbcopy 2>/dev/null || xclip -selection clipboard 2>/dev/null || xsel --clipboard 2>/dev/null)"
+bind stage ` @bash -c "echo -n '%(file)' | pbcopy"
+bind status ` @bash -c "echo -n '%(file)' | pbcopy"
+bind tree ` @bash -c "echo -n '%(file)' | pbcopy"
+bind blob ` @bash -c "echo -n '%(file)' | pbcopy"
 
 # g をファイル先頭に移動に変更、view-grep を再割当て
 bind generic g move-first-line

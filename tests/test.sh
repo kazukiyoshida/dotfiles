@@ -16,8 +16,16 @@ check() {
   fi
 }
 
-echo "=== Dotfiles Test Suite ==="
+echo "=== Dotfiles Test Suite (macOS) ==="
 echo ""
+
+# Deploy if not already deployed
+if [ ! -L ~/.zshrc ]; then
+  echo "[Setup] Running bin/link.sh..."
+  SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+  bash "$SCRIPT_DIR/bin/link.sh"
+  echo ""
+fi
 
 echo "[Symlinks]"
 check "~/.zshrc exists" test -L ~/.zshrc
@@ -39,9 +47,15 @@ check "zprofile syntax valid" zsh -n ~/.zprofile
 check "peco.json valid JSON" python3 -c "import json; json.load(open('$HOME/.config/peco/config.json'))"
 
 echo ""
+echo "[macOS tools]"
+check "pbcopy available" command -v pbcopy
+check "brew available" command -v brew
+
+echo ""
 echo "[Idempotency]"
-cd ~/dotfiles && bash bin/link.sh >/dev/null 2>&1
-check "link.sh idempotent (2nd run)" bash bin/link.sh
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+bash "$SCRIPT_DIR/bin/link.sh" >/dev/null 2>&1
+check "link.sh idempotent (2nd run)" bash "$SCRIPT_DIR/bin/link.sh"
 
 echo ""
 echo "=== Results: $PASS passed, $FAIL failed ==="

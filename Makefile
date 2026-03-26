@@ -1,25 +1,41 @@
-.PHONY: test test-ubuntu lint clean
+.PHONY: test lint deploy dry-run vm-up vm-down clean
 
-test: lint test-ubuntu
+# Run lint checks locally
+test: lint
 
+# Syntax checks (run on host macOS)
 lint:
 	@echo "==> Checking zsh syntax..."
-	zsh -n zshrc || true
-	zsh -n zprofile || true
-	zsh -n zshenv || true
-	zsh -n zlogin || true
-	@echo "==> Checking vim config syntax..."
-	nvim --headless -c 'if 1 | qall' 2>&1 || true
-	@echo "==> Checking tmux config syntax..."
-	tmux -f tmux.conf start-server \; kill-server 2>&1 || true
+	zsh -n zshrc
+	zsh -n zprofile
+	zsh -n zshenv
+	zsh -n zlogin
 	@echo "==> Validating peco.json..."
-	python3 -c "import json; json.load(open('peco.json'))" && echo "peco.json: OK" || echo "peco.json: INVALID"
+	python3 -c "import json; json.load(open('peco.json'))" && echo "peco.json: OK"
+	@echo "==> All lint checks passed."
 
-test-ubuntu:
-	@echo "==> Building Ubuntu test image..."
-	docker build -f Dockerfile.ubuntu -t dotfiles-test-ubuntu .
-	@echo "==> Running Ubuntu tests..."
-	docker run --rm dotfiles-test-ubuntu
+# Deploy dotfiles (create symlinks)
+deploy:
+	bash bin/link.sh
+
+# Preview what deploy would do
+dry-run:
+	bash bin/link.sh --dry-run
+
+# Start macOS test VM (requires KVM)
+vm-up:
+	docker compose up -d
+	@echo ""
+	@echo "macOS VM starting. Access via browser: http://localhost:8006"
+	@echo "After macOS boots:"
+	@echo "  1. Open Terminal"
+	@echo "  2. sudo mount_9p shared"
+	@echo "  3. cd /Volumes/shared && bash tests/test.sh"
+
+# Stop macOS test VM
+vm-down:
+	docker compose down
 
 clean:
-	docker rmi dotfiles-test-ubuntu 2>/dev/null || true
+	docker compose down -v 2>/dev/null || true
+	rm -rf /tmp/dotfiles-macos-storage

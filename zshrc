@@ -275,15 +275,10 @@ if [[ -z $ZSHRC_PATH_UPDATED ]]; then
 
   export PATH="$PATH:$HOME/flutter/bin"
 
-  # Java (detect platform)
-  if [ -d "/Library/Java/JavaVirtualMachines" ]; then
-    # macOS
-    local java_dir=$(ls -d /Library/Java/JavaVirtualMachines/*/Contents/Home 2>/dev/null | head -1)
-    if [ -n "$java_dir" ]; then
-      export JAVA_HOME="$java_dir"
-      export PATH="$PATH:$JAVA_HOME/bin"
-    fi
-  elif [ -n "$JAVA_HOME" ]; then
+  # Java
+  local java_dir=$(ls -d /Library/Java/JavaVirtualMachines/*/Contents/Home 2>/dev/null | head -1)
+  if [ -n "$java_dir" ]; then
+    export JAVA_HOME="$java_dir"
     export PATH="$PATH:$JAVA_HOME/bin"
   fi
 
