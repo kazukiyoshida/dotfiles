@@ -94,7 +94,6 @@ prompt_git
 alias d='docker'
 alias dp='docker-compose'
 alias dcp='yes | docker container prune'
-alias dip='yes | docker container prune'
 
 # Git aliases
 alias gp='git push origin HEAD'
@@ -126,7 +125,9 @@ alias vimconf="cd ~/.config/nvim/"
 
 alias m="make"
 
-alias md="open -a typora"
+if [[ "$(uname)" == "Darwin" ]]; then
+  alias md="open -a typora"
+fi
 
 # 'r' コマンドを使用しない
 disable r
@@ -165,11 +166,11 @@ function ras() {
 
 # grap はファイル内検索とエディタの起動を行う
 function grap() {
-  file_and_line=$(ag $* | peco | awk -F: '{printf $1 ":" $2}')
-  filepath=$( echo $file_and_line | awk -F: '{printf $1}' )
-  lines=$( echo $file_and_line | awk -F: '{printf $2}' )
-  if [ -n "$filepath" ]; then
-    vim $filepath "+"$lines
+  local result=$(rg --line-number "$@" | fzf --delimiter=: --preview 'bat --color=always --highlight-line {2} {1} 2>/dev/null || head -n $(({2}+10)) {1} | tail -n 20')
+  if [ -n "$result" ]; then
+    local filepath=$(echo "$result" | awk -F: '{print $1}')
+    local line=$(echo "$result" | awk -F: '{print $2}')
+    vim "$filepath" "+$line"
   fi
 }
 
@@ -201,11 +202,6 @@ bindkey -M viins '^K'  kill-line
 #---------------------------------------------------------------------------------
 # Plugins
 #---------------------------------------------------------------------------------
-
-# Peco
-function find_cd() {
-  cd "$(find . -type d | peco)"
-}
 
 # " ctrl + ] " starts incremental repo search
 function peco-src () {
@@ -258,8 +254,6 @@ export XDG_CONFIG_HOME=$HOME/.config
 
 # Rust
 export LD_LIBRARY_PATH=$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib
-export RLS_ROOT=/Users/kazukiyoshida/code/src/github.com/rust-lang-nursery/rls/target/release/rls
-
 # PATH 更新系の設定
 if [[ -z $ZSHRC_PATH_UPDATED ]]; then
   # Go
@@ -281,8 +275,17 @@ if [[ -z $ZSHRC_PATH_UPDATED ]]; then
 
   export PATH="$PATH:$HOME/flutter/bin"
 
-  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home
-  export PATH=$PATH:/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/bin
+  # Java (detect platform)
+  if [ -d "/Library/Java/JavaVirtualMachines" ]; then
+    # macOS
+    local java_dir=$(ls -d /Library/Java/JavaVirtualMachines/*/Contents/Home 2>/dev/null | head -1)
+    if [ -n "$java_dir" ]; then
+      export JAVA_HOME="$java_dir"
+      export PATH="$PATH:$JAVA_HOME/bin"
+    fi
+  elif [ -n "$JAVA_HOME" ]; then
+    export PATH="$PATH:$JAVA_HOME/bin"
+  fi
 
   export ZSHRC_PATH_UPDATED=1
 fi
@@ -313,36 +316,45 @@ fi
 # export PATH="$HOME/.poetry/bin:$PATH"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
-eval "$(nodenv init -)"
+if command -v nodenv &>/dev/null; then
+  eval "$(nodenv init -)"
+fi
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/yoshidakazuki/.rd/bin:$PATH"
+export PATH="$HOME/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-source /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh
-PROMPT='$(kube_ps1)'$PROMPT
+# kube-ps1
+local kube_ps1_path="/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+if [ -f "$kube_ps1_path" ]; then
+  source "$kube_ps1_path"
+  PROMPT='$(kube_ps1)'$PROMPT
+fi
 
-. "$HOME/.local/bin/env"
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/yoshidakazuki/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yoshidakazuki/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/yoshidakazuki/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yoshidakazuki/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
 
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/gitlab
+# SSH agent (reuse existing agent if available)
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent -s)" > /dev/null
+  ssh-add ~/.ssh/gitlab 2>/dev/null
+fi
 
 # .NET 環境設定
 export DOTNET_ROOT=/usr/local/share/dotnet
 export PATH=$DOTNET_ROOT:$PATH
 
 # Added by Antigravity
-export PATH="/Users/yoshidakazuki/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 # .NET Core SDK tools
-export PATH="$PATH:/Users/yoshidakazuki/.dotnet/tools"
+export PATH="$PATH:$HOME/.dotnet/tools"
