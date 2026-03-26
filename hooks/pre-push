@@ -1,7 +1,0 @@
-#!/bin/sh
-# pre-push: run tests before pushing
-
-set -e
-
-echo "==> pre-push: running tests..."
-make test

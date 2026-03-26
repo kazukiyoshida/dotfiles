@@ -1,14 +1,10 @@
-.PHONY: test e2e lint lint-shell lint-zsh deploy dry-run vm-up vm-down clean hooks
-
-# Run all checks
-test: lint
-	bash tests/test.sh
+.PHONY: e2e lint lint-shell lint-zsh deploy dry-run hooks
 
 # All lint checks
 lint: lint-shell lint-zsh
 	@echo "==> All lint checks passed."
 
-# E2E tests (macOS required)
+# E2E tests (macOS required, runs on GitHub Actions)
 e2e: lint
 	bash tests/e2etest.sh
 
@@ -16,7 +12,6 @@ e2e: lint
 lint-shell:
 	@echo "==> shellcheck..."
 	shellcheck bin/link.sh
-	shellcheck tests/test.sh
 	shellcheck tests/e2etest.sh
 
 # Zsh syntax (zsh -n)
@@ -38,23 +33,4 @@ dry-run:
 # Install git hooks
 hooks:
 	ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
-	ln -sf ../../hooks/pre-push .git/hooks/pre-push
 	@echo "Git hooks installed."
-
-# Start macOS test VM (requires KVM)
-vm-up:
-	docker compose up -d
-	@echo ""
-	@echo "macOS VM starting. Access via browser: http://localhost:8006"
-	@echo "After macOS boots:"
-	@echo "  1. Open Terminal"
-	@echo "  2. sudo mount_9p shared"
-	@echo "  3. cd /Volumes/shared && bash tests/test.sh"
-
-# Stop macOS test VM
-vm-down:
-	docker compose down
-
-clean:
-	docker compose down -v 2>/dev/null || true
-	rm -rf /tmp/dotfiles-macos-storage
