@@ -28,22 +28,22 @@ if [ ! -L ~/.zshrc ]; then
 fi
 
 echo "[Symlinks]"
-check "~/.zshrc exists" test -L ~/.zshrc
-check "~/.zprofile exists" test -L ~/.zprofile
-check "~/.tmux.conf exists" test -L ~/.tmux.conf
-check "~/.tigrc exists" test -L ~/.tigrc
-check "~/.config/nvim/init.vim exists" test -L ~/.config/nvim/init.vim
-check "~/.config/nvim/_config exists" test -L ~/.config/nvim/_config
-check "~/.config/nvim/dein.toml exists" test -L ~/.config/nvim/dein.toml
-check "~/.config/nvim/dein_lazy.toml exists" test -L ~/.config/nvim/dein_lazy.toml
-check "~/.config/nvim/autoload exists" test -L ~/.config/nvim/autoload
-check "~/.config/nvim/plugin exists" test -L ~/.config/nvim/plugin
-check "~/.config/peco/config.json exists" test -L ~/.config/peco/config.json
+check "$HOME/.zshrc exists" test -L "$HOME/.zshrc"
+check "$HOME/.zprofile exists" test -L "$HOME/.zprofile"
+check "$HOME/.tmux.conf exists" test -L "$HOME/.tmux.conf"
+check "$HOME/.tigrc exists" test -L "$HOME/.tigrc"
+check "$HOME/.config/nvim/init.vim exists" test -L "$HOME/.config/nvim/init.vim"
+check "$HOME/.config/nvim/_config exists" test -L "$HOME/.config/nvim/_config"
+check "$HOME/.config/nvim/dein.toml exists" test -L "$HOME/.config/nvim/dein.toml"
+check "$HOME/.config/nvim/dein_lazy.toml exists" test -L "$HOME/.config/nvim/dein_lazy.toml"
+check "$HOME/.config/nvim/autoload exists" test -L "$HOME/.config/nvim/autoload"
+check "$HOME/.config/nvim/plugin exists" test -L "$HOME/.config/nvim/plugin"
+check "$HOME/.config/peco/config.json exists" test -L "$HOME/.config/peco/config.json"
 
 echo ""
 echo "[Syntax]"
-check "zshrc syntax valid" zsh -n ~/.zshrc
-check "zprofile syntax valid" zsh -n ~/.zprofile
+check "zshrc syntax valid" zsh -n "$HOME/.zshrc"
+check "zprofile syntax valid" zsh -n "$HOME/.zprofile"
 check "peco.json valid JSON" python3 -c "import json; json.load(open('$HOME/.config/peco/config.json'))"
 
 echo ""

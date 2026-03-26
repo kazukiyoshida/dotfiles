@@ -1,18 +1,31 @@
-.PHONY: test lint deploy dry-run vm-up vm-down clean
+.PHONY: test lint lint-shell lint-zsh lint-json deploy dry-run vm-up vm-down clean hooks
 
-# Run lint checks locally
+# Run all checks
 test: lint
+	bash tests/test.sh
 
-# Syntax checks (run on host macOS)
-lint:
-	@echo "==> Checking zsh syntax..."
+# All lint checks
+lint: lint-shell lint-zsh lint-json
+	@echo "==> All lint checks passed."
+
+# Shell scripts (shellcheck)
+lint-shell:
+	@echo "==> shellcheck..."
+	shellcheck bin/link.sh
+	shellcheck tests/test.sh
+
+# Zsh syntax (zsh -n)
+lint-zsh:
+	@echo "==> zsh syntax..."
 	zsh -n zshrc
 	zsh -n zprofile
 	zsh -n zshenv
 	zsh -n zlogin
-	@echo "==> Validating peco.json..."
+
+# JSON validation
+lint-json:
+	@echo "==> JSON validation..."
 	python3 -c "import json; json.load(open('peco.json'))" && echo "peco.json: OK"
-	@echo "==> All lint checks passed."
 
 # Deploy dotfiles (create symlinks)
 deploy:
@@ -21,6 +34,12 @@ deploy:
 # Preview what deploy would do
 dry-run:
 	bash bin/link.sh --dry-run
+
+# Install git hooks
+hooks:
+	ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
+	ln -sf ../../hooks/pre-push .git/hooks/pre-push
+	@echo "Git hooks installed."
 
 # Start macOS test VM (requires KVM)
 vm-up:
