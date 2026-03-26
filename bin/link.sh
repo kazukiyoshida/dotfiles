@@ -104,45 +104,45 @@ echo ""
 info "DOTFILES_DIR = $DOTFILES_DIR"
 echo ""
 
+# --- config directory -------------------------------------------------------
+CONF="$DOTFILES_DIR/config"
+
 # --- Shell -----------------------------------------------------------------
 info "Linking shell config..."
 for f in zshenv zshrc zlogin zprofile; do
-  link_file "$DOTFILES_DIR/$f" "$HOME/.$f"
+  link_file "$CONF/zsh/$f" "$HOME/.$f"
 done
 
 # --- Tmux ------------------------------------------------------------------
 info "Linking tmux config..."
-link_file "$DOTFILES_DIR/tmux.conf" "$HOME/.tmux.conf"
+link_file "$CONF/tmux/tmux.conf" "$HOME/.tmux.conf"
 
 # --- Tig -------------------------------------------------------------------
 info "Linking tig config..."
-link_file "$DOTFILES_DIR/tigrc" "$HOME/.tigrc"
+link_file "$CONF/tig/tigrc" "$HOME/.tigrc"
 
 # --- Peco ------------------------------------------------------------------
 info "Linking peco config..."
 ensure_dir "$HOME/.config/peco"
-link_file "$DOTFILES_DIR/peco.json" "$HOME/.config/peco/config.json"
+link_file "$CONF/peco/config.json" "$HOME/.config/peco/config.json"
 
-# --- Vim / Neovim ----------------------------------------------------------
-info "Linking Vim/Neovim config..."
+# --- Neovim ----------------------------------------------------------------
+info "Linking Neovim config..."
 ensure_dir "$HOME/.config/nvim"
 
-# vimrc -> init.vim
-link_file "$DOTFILES_DIR/vimfiles/vimrc" "$HOME/.config/nvim/init.vim"
+link_file "$CONF/nvim/init.vim" "$HOME/.config/nvim/init.vim"
 
-# dein TOML files
-link_file "$DOTFILES_DIR/vimfiles/dein/dein.toml"      "$HOME/.config/nvim/dein.toml"
-link_file "$DOTFILES_DIR/vimfiles/dein/dein_lazy.toml"  "$HOME/.config/nvim/dein_lazy.toml"
+link_file "$CONF/nvim/dein/dein.toml"      "$HOME/.config/nvim/dein.toml"
+link_file "$CONF/nvim/dein/dein_lazy.toml"  "$HOME/.config/nvim/dein_lazy.toml"
 
-# directories (use link_dir so ln -sfn handles existing symlinks)
-link_dir "$DOTFILES_DIR/vimfiles/_config"  "$HOME/.config/nvim/_config"
-link_dir "$DOTFILES_DIR/vimfiles/autoload" "$HOME/.config/nvim/autoload"
-link_dir "$DOTFILES_DIR/vimfiles/plugin"   "$HOME/.config/nvim/plugin"
+link_dir "$CONF/nvim/_config"  "$HOME/.config/nvim/_config"
+link_dir "$CONF/nvim/autoload" "$HOME/.config/nvim/autoload"
+link_dir "$CONF/nvim/plugin"   "$HOME/.config/nvim/plugin"
 
 # --- Tig (XDG) -------------------------------------------------------------
 info "Linking tig XDG config..."
 ensure_dir "$HOME/.config/tig"
-link_file "$DOTFILES_DIR/tigrc" "$HOME/.config/tig/config"
+link_file "$CONF/tig/tigrc" "$HOME/.config/tig/config"
 
 echo ""
 info "Done."

@@ -17,15 +17,15 @@ lint-shell:
 # Zsh syntax (zsh -n)
 lint-zsh:
 	@echo "==> zsh syntax..."
-	zsh -n zshrc
-	zsh -n zprofile
-	zsh -n zshenv
-	zsh -n zlogin
+	zsh -n config/zsh/zshrc
+	zsh -n config/zsh/zprofile
+	zsh -n config/zsh/zshenv
+	zsh -n config/zsh/zlogin
 
 # JSON validation
 lint-json:
 	@echo "==> JSON validation..."
-	python3 -c "import json; json.load(open('peco.json'))" && echo "peco.json: OK"
+	python3 -c "import json; json.load(open('config/peco/config.json'))" && echo "config.json: OK"
 
 # Deploy dotfiles (create symlinks)
 deploy:
