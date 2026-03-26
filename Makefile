@@ -32,5 +32,5 @@ dry-run:
 
 # Install git hooks
 hooks:
-	ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
+	ln -sf ../../pre-commit .git/hooks/pre-commit
 	@echo "Git hooks installed."
