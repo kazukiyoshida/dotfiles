@@ -1,0 +1,10 @@
+# Theme
+# ("ghostty +list-themes" コマンドで検索)
+theme = Night Owl
+
+# Shift+Enter: 送信しない改行挿入
+keybind = shift+enter=text:\x0a
+
+# Font
+# Claude Code の日本語文字化けを抑制
+font-family = JetBrains Mono

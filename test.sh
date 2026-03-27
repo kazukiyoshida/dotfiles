@@ -60,6 +60,12 @@ check "nvim loads config without error" nvim --headless -c 'qall'
 
 # ---------------------------------------------------------------------------
 echo ""
+echo "[ghostty]"
+
+check "ghostty/config linked"      test -L "$HOME/.config/ghostty/config" -a -r "$HOME/.config/ghostty/config"
+
+# ---------------------------------------------------------------------------
+echo ""
 echo "[tig]"
 
 check "tig/config linked"          test -L "$HOME/.config/tig/config" -a -r "$HOME/.config/tig/config"

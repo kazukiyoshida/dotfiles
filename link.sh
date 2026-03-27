@@ -121,6 +121,11 @@ info "Linking tig config..."
 ensure_dir "$HOME/.config/tig"
 link_file "$CONF/tig/tigrc" "$HOME/.config/tig/config"
 
+# --- Ghostty ---------------------------------------------------------------
+info "Linking Ghostty config..."
+ensure_dir "$HOME/.config/ghostty"
+link_file "$CONF/ghostty/config" "$HOME/.config/ghostty/config"
+
 # --- Neovim ----------------------------------------------------------------
 info "Linking Neovim config..."
 ensure_dir "$HOME/.config/nvim"
