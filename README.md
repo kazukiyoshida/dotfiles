@@ -17,12 +17,8 @@ This will clone the repo, install Homebrew and required tools, and create all sy
 git clone https://github.com/kazukiyoshida/dotfiles.git
 cd dotfiles
 
-# 2. Preview what will be created (dry-run)
-bash link.sh --dry-run
-
-# 3. Deploy (create symlinks)
-bash link.sh
-
+# 2. Deploy (create symlinks)
+make deploy
 ```
 
 ## Tools
@@ -56,6 +52,7 @@ docs/            Documentation
 ## Dev
 
 ```sh
-# Install git hooks
-make hooks
+make init     # install git hooks
+make lint     # run shellcheck + zsh syntax checks
+make e2e      # run E2E tests (macOS only)
 ```

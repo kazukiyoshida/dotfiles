@@ -1,12 +1,8 @@
-.PHONY: e2e lint lint-shell lint-zsh deploy dry-run hooks init
+.PHONY: e2e lint lint-shell lint-zsh deploy hooks init
 
 # All lint checks
 lint: lint-shell lint-zsh
 	@echo "==> All lint checks passed."
-
-# E2E tests (macOS required, runs on GitHub Actions)
-e2e: lint
-	bash test.sh
 
 # Shell scripts (shellcheck)
 lint-shell:
@@ -24,10 +20,6 @@ lint-zsh:
 # Deploy dotfiles (create symlinks)
 deploy:
 	bash link.sh
-
-# Preview what deploy would do
-dry-run:
-	bash link.sh --dry-run
 
 # Initialize development environment
 init: hooks
