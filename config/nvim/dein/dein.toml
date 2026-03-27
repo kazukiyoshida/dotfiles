@@ -15,6 +15,10 @@ repo = 'vim-airline/vim-airline-themes'
 [[plugins]]
 repo = 'kaicataldo/material.vim'
 
+# Night Owl カラースキーム
+[[plugins]]
+repo = 'haishanh/night-owl.vim'
+
 # 移動の高速化
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
