@@ -58,20 +58,6 @@ Safe to run multiple times (idempotent). Directories are created automatically i
 | [ripgrep](https://github.com/BurntSushi/ripgrep) | Fast grep (used by `grap` function) |
 | [tig](https://jonas.github.io/tig/) | Git TUI |
 
-### Optional
-
-These are configured per-machine in `~/.zshrc.local` (see [docs/zshrc-local.md](docs/zshrc-local.md)).
-
-| Tool | Purpose |
-|------|---------|
-| [nodenv](https://github.com/nodenv/nodenv) | Node.js version manager |
-| [asdf](https://asdf-vm.com/) | Runtime version manager |
-| [kubectl](https://kubernetes.io/docs/tasks/tools/) + [krew](https://krew.sigs.k8s.io/) | Kubernetes CLI (`k` alias) |
-| [kube-ps1](https://github.com/jonmosco/kube-ps1) | Kubernetes context in prompt |
-| [Google Cloud SDK](https://cloud.google.com/sdk) | gcloud CLI |
-| [.NET SDK](https://dotnet.microsoft.com/) | .NET development |
-| [Docker](https://www.docker.com/) | Containers (`d`, `dp`, `dke` aliases) |
-
 ## Structure
 
 ```
