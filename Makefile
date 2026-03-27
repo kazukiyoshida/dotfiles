@@ -1,4 +1,4 @@
-.PHONY: e2e lint lint-shell lint-zsh deploy dry-run hooks
+.PHONY: e2e lint lint-shell lint-zsh deploy dry-run hooks init
 
 # All lint checks
 lint: lint-shell lint-zsh
@@ -28,6 +28,10 @@ deploy:
 # Preview what deploy would do
 dry-run:
 	bash link.sh --dry-run
+
+# Initialize development environment
+init: hooks
+	@echo "Development environment initialized."
 
 # Install git hooks
 hooks:
