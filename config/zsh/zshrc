@@ -235,17 +235,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 # PATH 更新系の設定
 if [[ -z $ZSHRC_PATH_UPDATED ]]; then
   export PYTHONDONTWRITEBYTECODE=1
-
-  # Node
   export PATH=$HOME/.nodebrew/current/bin:$PATH
-
-  # Java
-  local java_dir=$(ls -d /Library/Java/JavaVirtualMachines/*/Contents/Home 2>/dev/null | head -1)
-  if [ -n "$java_dir" ]; then
-    export JAVA_HOME="$java_dir"
-    export PATH="$PATH:$JAVA_HOME/bin"
-  fi
-
   export ZSHRC_PATH_UPDATED=1
 fi
 
