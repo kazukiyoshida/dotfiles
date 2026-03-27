@@ -164,15 +164,6 @@ function ras() {
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
-# grap はファイル内検索とエディタの起動を行う
-function grap() {
-  local result=$(rg --line-number "$@" | fzf --delimiter=: --preview 'bat --color=always --highlight-line {2} {1} 2>/dev/null || head -n $(({2}+10)) {1} | tail -n 20')
-  if [ -n "$result" ]; then
-    local filepath=$(echo "$result" | awk -F: '{print $1}')
-    local line=$(echo "$result" | awk -F: '{print $2}')
-    vim "$filepath" "+$line"
-  fi
-}
 
 # wo は ~/Dev 配下のディレクトリを fzf で検索してジャンプする
 function wo() {
