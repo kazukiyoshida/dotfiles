@@ -173,6 +173,18 @@ function grap() {
   fi
 }
 
+# wo は ~/Dev 配下のディレクトリを fzf で検索してジャンプする
+function wo() {
+  local dir
+  dir=$(find ~/Dev -mindepth 1 -maxdepth 1 -type d | sed "s|$HOME/Dev/||" | fzf +m --preview "ls -la ~/Dev/{}")
+  if [ -n "$dir" ]; then
+    cd ~/Dev/"$dir"
+  fi
+  zle && zle reset-prompt
+}
+zle -N wo
+bindkey '^]' wo
+
 # dps は docker ps の省略テンプレートを表示する
 function dps() {
   echo "cont_id        status        name                          image"
