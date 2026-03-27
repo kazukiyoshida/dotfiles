@@ -53,6 +53,4 @@ docs/            Documentation
 
 ```sh
 make init     # install git hooks
-make lint     # run shellcheck + zsh syntax checks
-make e2e      # run E2E tests (macOS only)
 ```

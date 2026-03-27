@@ -21,11 +21,7 @@ lint-zsh:
 deploy:
 	bash link.sh
 
-# Initialize development environment
-init: hooks
-	@echo "Development environment initialized."
-
 # Install git hooks
-hooks:
+init:
 	ln -sf ../../pre-commit .git/hooks/pre-commit
 	@echo "Git hooks installed."
