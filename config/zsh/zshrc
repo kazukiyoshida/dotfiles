@@ -79,8 +79,9 @@ zstyle ':vcs_info:*'     actionformats     '[%bl%a]'            # rebase or some
 
 function prompt_git() {
   # ${fg[cyan]}%....$reset_color : set prompt color
-  PROMPT='${vcs_info_msg_0_} $ '
-  RPROMPT='%{${fg[cyan]}%}[%~]%{${reset_color}%}'
+  PROMPT='%F{cyan}%~%f ${vcs_info_msg_0_}
+$ '
+  RPROMPT=
 }
 
 precmd(){vcs_info}
