@@ -73,13 +73,13 @@ setopt prompt_subst  # PROMPT変数内で変数参照
 # %b: branch name, %a: action name (ex. merge), %c: changes, %u: uncommit
 zstyle ':vcs_info:git:*' check-for-changes true                 # enable to use %c, %u
 zstyle ':vcs_info:git:*' stagedstr         "%F{green}!"         # there are non commit files
-zstyle ':vcs_info:git:*' unstagedstr       "%F{magenta}+"       # there are non add files
-zstyle ':vcs_info:*'     formats           "%F{cyan}%c%u(%b)%f" # normal
+zstyle ':vcs_info:git:*' unstagedstr       "%F{242}+"           # there are non add files
+zstyle ':vcs_info:*'     formats           "%c%u%F{242}(%b)%f" # normal
 zstyle ':vcs_info:*'     actionformats     '[%bl%a]'            # rebase or something
 
 function prompt_git() {
   # ${fg[cyan]}%....$reset_color : set prompt color
-  PROMPT='%F{cyan}%~%f ${vcs_info_msg_0_}
+  PROMPT='%F{208}%~%f ${vcs_info_msg_0_}
 $ '
   RPROMPT=
 }
