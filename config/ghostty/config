@@ -8,3 +8,6 @@ keybind = shift+enter=text:\x0a
 # Font
 # Claude Code の日本語文字化けを抑制
 font-family = JetBrains Mono
+
+cursor-color = orange
+cursor-opacity = 0.5
