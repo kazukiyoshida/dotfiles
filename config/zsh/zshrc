@@ -78,14 +78,17 @@ zstyle ':vcs_info:*'     formats           "%c%u%F{242}(%b)%f" # normal
 zstyle ':vcs_info:*'     actionformats     '[%bl%a]'            # rebase or something
 
 function prompt_git() {
-  # ${fg[cyan]}%....$reset_color : set prompt color
-  PROMPT='%F{208}%~%f ${vcs_info_msg_0_}
-$ '
+  local host_prefix=""
+  if [ "${PROMPT_SHOW_HOST:-1}" = "1" ]; then
+    local host_color="${PROMPT_HOST_COLOR:-blue}"
+    host_prefix="%F{${host_color}}%m%f "
+  fi
+  PROMPT="${host_prefix}%F{208}%~%f ${vcs_info_msg_0_}
+$ "
   RPROMPT=
 }
 
 precmd(){vcs_info}
-prompt_git
 
 #---------------------------------------------------------------------------------
 # Aliases
@@ -257,3 +260,5 @@ export ZDOTDIR=$HOME
 if [[ -f ~/.zshrc.local ]]; then
   source ~/.zshrc.local
 fi
+
+prompt_git
