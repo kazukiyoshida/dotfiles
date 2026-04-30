@@ -83,8 +83,8 @@ function prompt_git() {
     local host_color="${PROMPT_HOST_COLOR:-blue}"
     host_prefix="%F{${host_color}}%m%f "
   fi
-  PROMPT="${host_prefix}%F{208}%~%f ${vcs_info_msg_0_}
-$ "
+  PROMPT="${host_prefix}"'%F{208}%~%f ${vcs_info_msg_0_}
+$ '
   RPROMPT=
 }
 
