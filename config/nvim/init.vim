@@ -81,10 +81,19 @@ let g:fern#renderer = "nerdfont"
 " cf. https://mattn.kaoriya.net/software/vim/20191231001537.htm
 call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})
 
-let g:syntastic_python_flake8_args = '--ignore="W503"'
+" let g:syntastic_python_flake8_args = '--ignore=W503,E501'
 
 let g:lsp_settings = {
             \ 'clangd': {
             \   'cmd': ['clangd', '--enable-config'],
-            \ }
+            \ },
+            \ 'pylsp-all': {
+            \   'workspace_config': {
+            \     'pylsp': {
+            \       'plugins': {
+            \         'pycodestyle': { 'enabled': v:false },
+            \       },
+            \     },
+            \   },
+            \ },
             \}

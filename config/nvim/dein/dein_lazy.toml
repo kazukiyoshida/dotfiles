@@ -9,9 +9,9 @@ repo = 'cohama/lexima.vim'
 on_i = 1
 
 # Python 文法チェック
-[[plugins]]
-repo = 'nvie/vim-flake8'
-on_ft = 'python'
+# [[plugins]]
+# repo = 'nvie/vim-flake8'
+# on_ft = 'python'
 
 # Rubyのend補完
 [[plugins]]

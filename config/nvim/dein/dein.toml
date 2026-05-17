@@ -23,22 +23,6 @@ repo = 'haishanh/night-owl.vim'
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
 
-# コメント編集を効率化
-# double space bug for python code
-# cf. https://github.com/preservim/nerdcommenter/issues/278
-[[plugins]]
-repo = 'scrooloose/nerdcommenter'
-hook_add = '''
-let g:NERDSpaceDelims = 0
-let g:NERDSpaceDelims = 1
-let g:NERDCustomDelimiters = {
-      \ 'python': { 'left': '#', 'right': '' }
-      \ }
-let g:NERDDefaultAlign = 'left'
-let g:NERDTrimTrailingWhitespace = 1
-let g:NERDToggleCheckAllLines = 1
-'''
-
 # # f 検索・移動をより効率化
 # [[plugins]]
 # repo = 'rhysd/clever-f.vim'
