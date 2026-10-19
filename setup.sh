@@ -23,7 +23,8 @@ echo "  3. Install Homebrew (if not already installed)"
 echo "  4. Install packages listed in Brewfile (brew bundle)"
 echo "  5. Install Claude Code and Codex via their native installers"
 echo "  6. Start the Tailscale daemon and make Chrome the default browser"
-echo "  7. Create symlinks to ~/.zshrc, ~/.tmux.conf, ~/.config/nvim/, etc."
+echo "  7. Import the Rectangle config"
+echo "  8. Create symlinks to ~/.zshrc, ~/.tmux.conf, ~/.config/nvim/, etc."
 echo ""
 
 # --- Terminal input -----------------------------------------------------------
@@ -120,6 +121,31 @@ fi
 info "Setting Chrome as the default browser (confirm the dialog if shown)..."
 defaultbrowser chrome || warn "Could not set default browser; set it in System Settings > Desktop & Dock"
 
+# --- Rectangle config -------------------------------------------------------
+# Rectangle imports ~/Library/Application Support/Rectangle/RectangleConfig.json
+# on launch (after asking for confirmation) and then renames it with a
+# timestamp. It refuses symlinks, so the file is copied, not linked. A hash of
+# the last imported config is kept so re-runs only import when it changed.
+RECT_SRC="$DOTFILES_DIR/config/rectangle/RectangleConfig.json"
+RECT_DIR="$HOME/Library/Application Support/Rectangle"
+RECT_STAMP="$RECT_DIR/.dotfiles-config.sha256"
+rect_sha="$(shasum -a 256 "$RECT_SRC" | cut -d' ' -f1)"
+
+if [ -f "$RECT_STAMP" ] && [ "$(cat "$RECT_STAMP")" = "$rect_sha" ]; then
+  ok "Rectangle config already imported"
+else
+  info "Importing Rectangle config (click \"Apply\" in the Rectangle dialog)..."
+  mkdir -p "$RECT_DIR"
+  cp "$RECT_SRC" "$RECT_DIR/RectangleConfig.json"
+  chmod 644 "$RECT_DIR/RectangleConfig.json"
+  # The file is only read at launch, so restart Rectangle if it is running.
+  osascript -e 'tell application "Rectangle" to quit' &>/dev/null || true
+  sleep 1
+  open -a Rectangle
+  echo "$rect_sha" >"$RECT_STAMP"
+  ok "Rectangle config staged for import"
+fi
+
 # --- Deploy -----------------------------------------------------------------
 info "Running link.sh..."
 bash "$DOTFILES_DIR/link.sh"
@@ -137,4 +163,5 @@ echo "  - claude        # log in to Claude Code"
 echo "  - codex         # log in to Codex"
 echo "  - sudo tailscale up   # log in to Tailscale"
 echo "  - Confirm Chrome as the default browser if macOS asked"
+echo "  - Rectangle: allow Accessibility access when prompted, then click \"Apply\" to import the config"
 echo ""

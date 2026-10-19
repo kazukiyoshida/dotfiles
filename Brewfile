@@ -18,3 +18,4 @@ brew "defaultbrowser"   # used by setup.sh to make Chrome the default browser
 # --- Apps --------------------------------------------------------------------
 cask "ghostty"
 cask "google-chrome"
+cask "rectangle"        # window manager; config imported by setup.sh

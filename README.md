@@ -28,8 +28,9 @@ skips it, so you can re-run it any time to pick up changes. It does the followin
 4. Install everything in `Brewfile` via `brew bundle`
 5. Install Claude Code and Codex via their native installers
 6. Start the Tailscale daemon and make Chrome the default browser
-7. Create symlinks (`link.sh`)
-8. Install git hooks for this repo (`make init`)
+7. Import the Rectangle config (`config/rectangle/RectangleConfig.json`)
+8. Create symlinks (`link.sh`)
+9. Install git hooks for this repo (`make init`)
 
 ### After setup (manual)
 
@@ -42,6 +43,7 @@ These need a login or a confirmation and cannot be automated:
 | Log in to Codex | `codex` |
 | Log in to Tailscale | `sudo tailscale up` |
 | Confirm Chrome as default browser | click "Use Chrome" in the macOS dialog |
+| Rectangle | allow Accessibility access, then click "Apply" to import the config |
 
 ## Tools
 
@@ -61,6 +63,7 @@ All of these are installed automatically by the setup script.
 | [defaultbrowser](https://github.com/kerma/defaultbrowser) | Brewfile | Sets Chrome as the default browser |
 | [Ghostty](https://ghostty.org/) | Brewfile (cask) | Terminal emulator |
 | [Google Chrome](https://www.google.com/chrome/) | Brewfile (cask) | Browser (set as default) |
+| [Rectangle](https://github.com/rxhanson/Rectangle) | Brewfile (cask) | Window manager (config imported from `config/rectangle/`) |
 | [Claude Code](https://claude.com/product/claude-code) | native installer | AI coding agent (`~/.local/bin/claude`, self-updating) |
 | [Codex](https://github.com/openai/codex) | native installer | AI coding agent (`~/.local/bin/codex`, self-updating) |
 
@@ -89,6 +92,7 @@ config/
   tmux/          tmux.conf
   tig/           tigrc
   ghostty/       config
+  rectangle/     RectangleConfig.json (copied, not symlinked; see setup.sh)
 Brewfile         Homebrew packages (brew bundle)
 setup.sh         One-liner setup script
 link.sh          Deploy script (creates symlinks)

@@ -2,7 +2,7 @@
 
 ## Overview
 
-A macOS-only dotfiles repository managing configs for zsh, neovim, tmux, tig, and ghostty.
+A macOS-only dotfiles repository managing configs for zsh, neovim, tmux, tig, ghostty, and Rectangle.
 
 ## Commands
 
@@ -31,6 +31,9 @@ config/                  # dotfiles (symlink targets)
   tmux/                  #   tmux.conf
   tig/                   #   tigrc
   ghostty/               #   config
+  rectangle/             #   RectangleConfig.json (imported by setup.sh)
+Brewfile                 # Homebrew packages (brew bundle)
+setup.sh                 # one-liner setup for a fresh Mac
 link.sh                  # deploy script (creates symlinks)
 test.sh                  # macOS E2E tests (GitHub Actions)
 pre-commit               # git pre-commit hook
