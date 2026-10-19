@@ -1,4 +1,4 @@
-.PHONY: e2e lint lint-shell lint-zsh deploy hooks init
+.PHONY: e2e lint lint-shell lint-zsh deploy init
 
 # All lint checks
 lint: lint-shell lint-zsh
@@ -16,6 +16,10 @@ lint-zsh:
 	@echo "==> zsh syntax..."
 	zsh -n config/zsh/zshrc
 	zsh -n config/zsh/zprofile
+
+# E2E tests (macOS required, runs on GitHub Actions)
+e2e:
+	bash test.sh
 
 # Deploy dotfiles (create symlinks)
 deploy:
