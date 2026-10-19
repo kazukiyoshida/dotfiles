@@ -3,14 +3,13 @@
 # One-liner setup (run on a fresh macOS):
 #   bash -c "$(curl -fsSL https://raw.githubusercontent.com/kazukiyoshida/dotfiles/master/setup.sh)"
 #
-# Idempotent: safe to run multiple times.
+# Idempotent: safe to run multiple times. Every step checks whether its work
+# is already done and skips it if so.
 #
 set -eu
 
 DOTFILES_REPO="https://github.com/kazukiyoshida/dotfiles.git"
 DOTFILES_DIR="$HOME/dotfiles"
-BREW_FORMULAE="neovim tmux fzf ripgrep tig shellcheck"
-BREW_CASKS="ghostty"
 
 info() { printf '\033[0;36m[info]\033[0m  %s\n' "$1"; }
 ok()   { printf '\033[0;32m[ok]\033[0m    %s\n' "$1"; }
@@ -21,9 +20,10 @@ echo "This script will:"
 echo "  1. Install Xcode Command Line Tools (if not already installed)"
 echo "  2. Clone dotfiles to $DOTFILES_DIR"
 echo "  3. Install Homebrew (if not already installed)"
-echo "  4. Install tools via brew: $BREW_FORMULAE"
-echo "  5. Install apps via brew cask: $BREW_CASKS"
-echo "  6. Create symlinks to ~/.zshrc, ~/.tmux.conf, ~/.config/nvim/, etc."
+echo "  4. Install packages listed in Brewfile (brew bundle)"
+echo "  5. Install Claude Code and Codex via their native installers"
+echo "  6. Start the Tailscale daemon and make Chrome the default browser"
+echo "  7. Create symlinks to ~/.zshrc, ~/.tmux.conf, ~/.config/nvim/, etc."
 echo ""
 
 # --- Terminal input -----------------------------------------------------------
@@ -61,35 +61,64 @@ fi
 
 # --- Homebrew ---------------------------------------------------------------
 # brew may be installed but not yet on PATH (e.g. zprofile not loaded yet).
-for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
-  if [ -x "$brew_bin" ]; then
-    eval "$("$brew_bin" shellenv)"
-    break
-  fi
-done
+load_brew() {
+  for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [ -x "$brew_bin" ]; then
+      eval "$("$brew_bin" shellenv)"
+      return 0
+    fi
+  done
+  return 1
+}
 
-if command -v brew &>/dev/null; then
+if load_brew; then
   ok "Homebrew already installed"
 else
   info "Installing Homebrew (you may be asked for your password)..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" <"$TTY_IN"
-  for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
-    if [ -x "$brew_bin" ]; then
-      eval "$("$brew_bin" shellenv)"
-      break
-    fi
-  done
+  load_brew
   ok "Homebrew installed"
 fi
 
-# --- Required tools ---------------------------------------------------------
-info "Installing tools: $BREW_FORMULAE"
-# shellcheck disable=SC2086
-brew install $BREW_FORMULAE
+# --- Brewfile ---------------------------------------------------------------
+info "Installing packages from Brewfile..."
+brew bundle --file="$DOTFILES_DIR/Brewfile"
 
-info "Installing apps: $BREW_CASKS"
-# shellcheck disable=SC2086
-brew install --cask $BREW_CASKS
+# --- Native installers ------------------------------------------------------
+# Claude Code and Codex install into ~/.local/bin and update themselves.
+# Re-running their installers is harmless but slow, so skip when present.
+export PATH="$HOME/.local/bin:$PATH"
+
+if command -v claude &>/dev/null; then
+  ok "Claude Code already installed ($(claude --version 2>/dev/null || echo unknown))"
+else
+  info "Installing Claude Code..."
+  curl -fsSL https://claude.ai/install.sh | bash
+  ok "Claude Code installed"
+fi
+
+if command -v codex &>/dev/null; then
+  ok "Codex already installed ($(codex --version 2>/dev/null || echo unknown))"
+else
+  info "Installing Codex..."
+  curl -fsSL https://chatgpt.com/codex/install.sh | sh
+  ok "Codex installed"
+fi
+
+# --- Tailscale daemon -------------------------------------------------------
+# The OSS tailscaled needs root, hence `sudo brew services`.
+if sudo brew services info tailscale --json 2>/dev/null | grep -q '"running": *true'; then
+  ok "Tailscale daemon already running"
+else
+  info "Starting Tailscale daemon (you may be asked for your password)..."
+  sudo brew services start tailscale
+  ok "Tailscale daemon started"
+fi
+
+# --- Default browser --------------------------------------------------------
+# macOS always asks for confirmation here; this just triggers the dialog.
+info "Setting Chrome as the default browser (confirm the dialog if shown)..."
+defaultbrowser chrome || warn "Could not set default browser; set it in System Settings > Desktop & Dock"
 
 # --- Deploy -----------------------------------------------------------------
 info "Running link.sh..."
@@ -100,4 +129,12 @@ info "Installing git hooks..."
 make -C "$DOTFILES_DIR" init
 
 echo ""
-ok "Setup complete. Restart your terminal or run: source ~/.zshrc"
+ok "Setup complete."
+echo ""
+echo "Next steps (manual):"
+echo "  - Restart your terminal (or open Ghostty) to load the new shell config"
+echo "  - claude        # log in to Claude Code"
+echo "  - codex         # log in to Codex"
+echo "  - sudo tailscale up   # log in to Tailscale"
+echo "  - Confirm Chrome as the default browser if macOS asked"
+echo ""

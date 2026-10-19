@@ -5,7 +5,7 @@ Personal dotfiles for macOS.
 ## Prerequisites
 
 - macOS (Apple Silicon or Intel)
-- An administrator account (Homebrew asks for your password during install)
+- An administrator account (Homebrew and Tailscale ask for your password)
 - Internet access
 
 Nothing else needs to be installed beforehand. Xcode Command Line Tools
@@ -19,14 +19,29 @@ Run this on a fresh Mac:
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/kazukiyoshida/dotfiles/master/setup.sh)"
 ```
 
-The script is idempotent and does the following:
+The script is idempotent: every step checks whether it is already done and
+skips it, so you can re-run it any time to pick up changes. It does the following:
 
 1. Install Xcode Command Line Tools (a dialog appears; click "Install")
 2. Clone this repo to `~/dotfiles`
 3. Install Homebrew
-4. Install the tools listed below via `brew install` / `brew install --cask`
-5. Create symlinks (`link.sh`)
-6. Install git hooks for this repo (`make init`)
+4. Install everything in `Brewfile` via `brew bundle`
+5. Install Claude Code and Codex via their native installers
+6. Start the Tailscale daemon and make Chrome the default browser
+7. Create symlinks (`link.sh`)
+8. Install git hooks for this repo (`make init`)
+
+### After setup (manual)
+
+These need a login or a confirmation and cannot be automated:
+
+| Step | Command |
+|------|---------|
+| Reload shell config | restart the terminal, or open Ghostty |
+| Log in to Claude Code | `claude` |
+| Log in to Codex | `codex` |
+| Log in to Tailscale | `sudo tailscale up` |
+| Confirm Chrome as default browser | click "Use Chrome" in the macOS dialog |
 
 ## Tools
 
@@ -36,13 +51,21 @@ All of these are installed automatically by the setup script.
 |------|---------------|---------|
 | [Xcode Command Line Tools](https://developer.apple.com/xcode/resources/) | `xcode-select --install` | `git`, compilers |
 | [Homebrew](https://brew.sh/) | official installer | Package manager |
-| [Neovim](https://neovim.io/) | `brew` | Editor (aliased to `vim` / `vi` / `v`) |
-| [tmux](https://github.com/tmux/tmux) | `brew` | Terminal multiplexer (prefix: `C-q`) |
-| [fzf](https://github.com/junegunn/fzf) | `brew` | Fuzzy finder (`C-r`: history search) |
-| [ripgrep](https://github.com/BurntSushi/ripgrep) | `brew` | Fast grep (used by Neovim) |
-| [tig](https://jonas.github.io/tig/) | `brew` | Git TUI |
-| [shellcheck](https://www.shellcheck.net/) | `brew` | Shell linter (used by the pre-commit hook) |
-| [Ghostty](https://ghostty.org/) | `brew --cask` | Terminal emulator |
+| [Neovim](https://neovim.io/) | Brewfile | Editor (aliased to `vim` / `vi` / `v`) |
+| [tmux](https://github.com/tmux/tmux) | Brewfile | Terminal multiplexer (prefix: `C-q`) |
+| [fzf](https://github.com/junegunn/fzf) | Brewfile | Fuzzy finder (`C-r`: history search) |
+| [ripgrep](https://github.com/BurntSushi/ripgrep) | Brewfile | Fast grep (used by Neovim) |
+| [tig](https://jonas.github.io/tig/) | Brewfile | Git TUI |
+| [shellcheck](https://www.shellcheck.net/) | Brewfile | Shell linter (used by the pre-commit hook) |
+| [Tailscale](https://tailscale.com/) (OSS CLI) | Brewfile | Mesh VPN (`tailscaled` runs via `brew services`) |
+| [defaultbrowser](https://github.com/kerma/defaultbrowser) | Brewfile | Sets Chrome as the default browser |
+| [Ghostty](https://ghostty.org/) | Brewfile (cask) | Terminal emulator |
+| [Google Chrome](https://www.google.com/chrome/) | Brewfile (cask) | Browser (set as default) |
+| [Claude Code](https://claude.com/product/claude-code) | native installer | AI coding agent (`~/.local/bin/claude`, self-updating) |
+| [Codex](https://github.com/openai/codex) | native installer | AI coding agent (`~/.local/bin/codex`, self-updating) |
+
+To add a Homebrew package, add a line to `Brewfile` and re-run the setup
+script (or `brew bundle --file=Brewfile`).
 
 ## Manual Setup
 
@@ -66,6 +89,7 @@ config/
   tmux/          tmux.conf
   tig/           tigrc
   ghostty/       config
+Brewfile         Homebrew packages (brew bundle)
 setup.sh         One-liner setup script
 link.sh          Deploy script (creates symlinks)
 test.sh          E2E tests (GitHub Actions)

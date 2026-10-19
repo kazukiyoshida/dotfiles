@@ -231,6 +231,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 if [[ -z $ZSHRC_PATH_UPDATED ]]; then
   export PYTHONDONTWRITEBYTECODE=1
   export PATH=$HOME/.nodebrew/current/bin:$PATH
+  export PATH=$HOME/.local/bin:$PATH   # claude, codex (native installers)
   export ZSHRC_PATH_UPDATED=1
 fi
 
