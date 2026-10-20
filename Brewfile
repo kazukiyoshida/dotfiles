@@ -11,6 +11,7 @@ brew "tmux"
 brew "fzf"
 brew "ripgrep"
 brew "tig"
+brew "gh"               # GitHub CLI
 brew "shellcheck"
 brew "tailscale"        # OSS CLI + daemon (do not also install the tailscale-app cask)
 brew "defaultbrowser"   # used by setup.sh to make Chrome the default browser

@@ -58,6 +58,7 @@ All of these are installed automatically by the setup script.
 | [fzf](https://github.com/junegunn/fzf) | Brewfile | Fuzzy finder (`C-r`: history search) |
 | [ripgrep](https://github.com/BurntSushi/ripgrep) | Brewfile | Fast grep (used by Neovim) |
 | [tig](https://jonas.github.io/tig/) | Brewfile | Git TUI |
+| [GitHub CLI](https://cli.github.com/) (`gh`) | Brewfile | GitHub from the terminal (PRs, issues, auth) |
 | [shellcheck](https://www.shellcheck.net/) | Brewfile | Shell linter (used by the pre-commit hook) |
 | [Tailscale](https://tailscale.com/) (OSS CLI) | Brewfile | Mesh VPN (`tailscaled` runs via `brew services`) |
 | [defaultbrowser](https://github.com/kerma/defaultbrowser) | Brewfile | Sets Chrome as the default browser |
